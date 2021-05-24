@@ -4,7 +4,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class LoggedToken extends AbstractMigration
+class LoggedTokens extends AbstractMigration
 {
     /*
      *
