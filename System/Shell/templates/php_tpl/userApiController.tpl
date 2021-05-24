@@ -50,12 +50,12 @@ class UserApiController extends Controller
             }
             $logged = new LoggedTokens;
             $logged->token = $token;
-            $logged->user_agent = $data->user_agent;
+            $logged->user_agent = (!empty($data->user_agent)) ? $data->user_agent : null;
             $logged->created_at = date('Y-m-d H:i:s');
             $logged->user_id = $_SESSION['id'];
             $logged->ip = $_SERVER['REMOTE_ADDR'];
             $logged->app_key = $key;
-            $logged->logged_id = $data->logged_id;
+            $logged->logged_id = (!empty($data->logged_id)) ? $data->logged_id : uniqid();
             $logged->save();
             $user = User::find($_SESSION['id'])->get();
             $this->Json(['data' => $token, 'user' => $user]);
