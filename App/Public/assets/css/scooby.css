@@ -1,0 +1,36 @@
+
+#home{
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    color: #eee !important;
+    text-align: center !important;
+    max-width: 100vw;
+}
+
+.home{
+    color: #222;
+}
+
+.relax-img{
+    width: 15vw;
+}
+
+.footer-msg{
+    padding: 0 15px;
+    font-size: 16px;
+    position: relative;
+    left: 20px;
+}
+
+.nav-wrapper{
+    position: relative;
+}
+
+@media screen and (max-width: 890px) and (orientation: portrait){
+    .relax-img{
+        width: 40vw;
+    }
+}

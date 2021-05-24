@@ -1,0 +1,9 @@
+composer.phar
+/vendor/
+node_modules/
+System/SysConfig/Cache/
+App/Public/uploaded/!index.php
+System/MinifyFiles/!.gitkeep
+App/Logs/!.gitkeep
+System/SysConfig/ScoobyCache/
+App/Logs/

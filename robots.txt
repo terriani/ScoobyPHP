@@ -1,0 +1,13 @@
+User-agent *
+Disallow: /App/
+Disallow: /Config/
+Disallow: /Library/
+Disallow: /node_modules/
+Disallow: /Public/
+Disallow: /tests/
+Disallow: /vendor/
+Disallow: /.gitignore
+Disallow: /composer.json
+Disallow: /composer.lock
+Allow: /index.php
+Disallow: /package-lock.json

@@ -1,0 +1,3 @@
+<?php
+
+require_once "System/Shell/Cli/scooby-cli.php";

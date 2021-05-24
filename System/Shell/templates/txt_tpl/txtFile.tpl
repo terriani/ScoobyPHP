@@ -1,0 +1,1 @@
+# Arquivo gerado automaticamente via Scooby_CLI em dateNow

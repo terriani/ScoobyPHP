@@ -1,0 +1,40 @@
+
+.error{
+    overflow-y:  hidden !important;
+}
+.error-message{
+    padding-top: 5%;
+    text-align: center;
+    color: #222;
+    font-size: 30pt;
+}
+
+.title{
+    font-size: 100pt;
+    font-weight: bolder;
+    color: #222;
+}
+
+.msg-404{
+    margin-top: 0 !important;
+}
+
+.img-404{
+    height: 30vh !important;
+}
+
+.btn-back{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+
+@media screen and (max-width: 900px) and (orientation: portrait){
+    .error-message{
+        padding-top: 100px !important;
+    }
+
+    .msg-404{
+        margin-top: -30px !important;
+    }
+}

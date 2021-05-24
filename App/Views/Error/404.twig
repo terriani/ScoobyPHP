@@ -1,0 +1,11 @@
+<div class="error">
+    <a href="javascript:window.history.back()" class='btn-back'><i class="material-icons black-text medium">arrow_back</i>
+    </a>
+    <div class="error-message">
+        <div class="square" style="overflow-y: hidden !important;">
+            <img src="{{ assets }}img/http_error.svg" class='img-404' alt="Página não encontrada"><br>
+            <span class='title'>{{ httpErrorCode }}</span>
+            <h3 class='msg-404'>{{ httpErrorMessage }}</h3>
+        </div>
+    </div>
+</div>
