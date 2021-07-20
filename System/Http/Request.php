@@ -35,11 +35,6 @@ class Request
         return $_SERVER['REQUEST_URI'] ?? '';
     }
 
-    /* public function teste()
-    {
-        Log::debug("message");
-    } */
-
     /**
      * ATENÇÃO USANDO ESTE MÉTODO OS DADOS DA REQUISIÇÃO NÃO SERÃO FILTRADOS PARA A RETIRADA DE CÓDIGOS MALICIOSOS
      * por padrão retorna os dados da requisição no formato de objeto,
