@@ -2,8 +2,6 @@
 
 namespace Scooby\Controllers;
 
-use Scooby\Helpers\Debug;
-
 class HomeController extends Controller
 {
     /**
@@ -14,7 +12,7 @@ class HomeController extends Controller
     public function index(): void
     {
         if (getenv('IS_API') === 'true') {
-            $this->Json(['Wellcome' => $GLOBALS['WELLCOME_MSG']]);
+            $this->json(['Wellcome' => $GLOBALS['WELLCOME_MSG']]);
         }
         $this->setTitle('Wellcome');
         $this->view('Pages', 'home', [

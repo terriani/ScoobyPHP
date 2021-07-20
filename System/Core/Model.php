@@ -4,7 +4,7 @@ namespace Scooby\Core;
 
 use Illuminate\Database\Capsule\Manager as db;
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
-use Scooby\Helpers\Debug;
+use Scooby\Log\Log;
 
 abstract class Model extends IlluminateModel
 {
@@ -31,6 +31,6 @@ abstract class Model extends IlluminateModel
      */
     public function debug($data, $msg = '', $logName = 'debug.log')
     {
-        Debug::debug($data, $msg, $logName);
+        Log::debug($data, $msg, $logName);
     }
 }

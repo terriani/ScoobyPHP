@@ -49,7 +49,7 @@ class Router extends Dispatch
                 }
                 $this->addRoute(strtoupper($method), $route, $handler, $name);
             }
-        } 
+        }
     }
 
     /**

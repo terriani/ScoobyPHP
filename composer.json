@@ -21,7 +21,15 @@
         "psr-4": {
             "Scooby\\Helpers\\":"System/Helpers/",
             "Scooby\\Core\\":"System/Core/",
+            "Scooby\\Guard\\":"System/Guard/",
+            "Scooby\\Database\\":"System/Database/",
+            "Scooby\\Factory\\":"System/Factory/",
+            "Scooby\\Html\\":"System/Html/",
+            "Scooby\\Kernel\\":"System/Kernel/",
+            "Scooby\\Log\\":"System/Log/",
+            "Scooby\\Http\\":"System/Http/",
             "Scooby\\Controllers\\":"App/Controllers/",
+            "Scooby\\Middlewares\\":"App/Middlewares/",
             "Scooby\\Models\\":"App/Models/",
             "Scooby\\Components\\":"App/Components/",
             "Scooby\\Router\\":"System/Router/"

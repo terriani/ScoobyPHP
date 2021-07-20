@@ -6,6 +6,7 @@ $html = [
     'header' => [
         "<link rel='stylesheet' href='" . NODE_MODULES . "animate.css/animate.min.css'>",
         "<link rel='stylesheet' href='".NODE_MODULES."materialize-css/dist/css/materialize.min.css'>",
+        "<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>",
 
         /**
          * Este arquivo carrega todos os arquivos JS minificados criados na pasta App/Public/assets/js/
@@ -16,7 +17,7 @@ $html = [
         "<script src='" . NODE_MODULES . "jquery/dist/jquery.min.js'></script>",
         "<script src='" . NODE_MODULES . "sweetalert2/dist/sweetalert2.all.min.js'></script>",
         "<script src='".NODE_MODULES."materialize-css/dist/js/materialize.min.js'></script>",
-        
+
         /**
          * Este arquivo carrega todos os arquivos JS minificados criados na pasta App/Public/assets/js/
          */

@@ -2,6 +2,11 @@
 
 namespace Scooby\Router;
 
+use Scooby;
+use Scooby\Http\Middleware;
+use Scooby\Http\Request;
+use stdClass;
+
 abstract class Dispatch
 {
     use RouterTrait;
@@ -27,6 +32,8 @@ abstract class Dispatch
     /** @var int */
     protected $error;
 
+    private $middlewareActionQueue = [];
+
     /** @const int Bad Request */
     public const BAD_REQUEST = 400;
 
@@ -34,7 +41,7 @@ abstract class Dispatch
     public const NOT_FOUND = 404;
 
     /** @const int Method Not Allowed */
-    public const METHOD_NOT_ALLOWED = 405;
+    public const  METHOD_NOT_ALLOWED = 405;
 
     /** @const int Not Implemented */
     public const NOT_IMPLEMENTED = 501;
@@ -51,6 +58,7 @@ abstract class Dispatch
         $this->patch = (filter_input(INPUT_GET, "route", FILTER_DEFAULT) ?? "/");
         $this->separator = ($separator ?? "@");
         $this->httpMethod = $_SERVER['REQUEST_METHOD'];
+        $this->middlewareActionQueue = Scooby\Http\Middlewares::$middlewareAction;
     }
 
     /**
@@ -113,7 +121,6 @@ abstract class Dispatch
                 $this->route = $route;
             }
         }
-
         return $this->execute();
     }
 
@@ -122,19 +129,31 @@ abstract class Dispatch
      */
     private function execute()
     {
+        $data = new Request;
         if ($this->route) {
             if (is_callable($this->route['handler'])) {
-                call_user_func($this->route['handler'], ($this->route['data'] ?? []));
+                $request = (new Middleware)->next();
+                $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
+                $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
+                call_user_func($this->route['handler'], ($data));
                 return true;
             }
 
             $controller = $this->route['handler'];
             $method = $this->route['action'];
-
             if (class_exists($controller)) {
                 $newController = new $controller($this);
                 if (method_exists($controller, $method)) {
-                    $newController->$method(($this->route['data'] ?? []));
+                    $request = (new Middleware)->next();
+                    $middlewareActionToExecute = explode('\\', $controller)[2] . $this->separator . $method;
+                    foreach ($this->middlewareActionQueue as $key => $middlewareAction) {
+                        if ($key === $middlewareActionToExecute) {
+                            $request = (new Middleware)->especificActionNext($middlewareAction);
+                        }
+                    }
+                    $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
+                    $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
+                    $newController->$method($data);
                     return true;
                 }
 

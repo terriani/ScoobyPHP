@@ -1,6 +1,6 @@
 <?php
 
-use Scooby\Helpers\Cli;
+use Scooby\Kernel\Cli;
 
 class Scooby
 {
@@ -136,6 +136,11 @@ class Scooby
                 $component == 'make:auth -api'
             ) {
                 MakeAuth::execOptionMakeAuthApi();
+            }elseif (
+                $component == 'makemiddleware' or
+                $component == 'make:middleware'
+            ) {
+                MakeMiddleware::execOptionMakeMiddleware();
             } elseif (
                 $component == 's' or
                 $component == 'S' or
@@ -221,6 +226,7 @@ COMANDOS DISPONÍVEIS: \033[;97m
   \033[1;90m - DIGITE: \033[;97m 'make:auth' para criar uma rotina de cadastro e login
   \033[1;90m - DIGITE: \033[;97m 'make:auth --api' para criar uma rotina de cadastro e login via api
   \033[1;90m - DIGITE: \033[;97m 'make:react-app' para criar uma estrutura ReactJs
+  \033[1;90m - DIGITE: \033[;97m 'make:middleware' para criar um Middleware
 ");
     }
 }

@@ -22,9 +22,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function update($data)
+    public function update(Request $request)
     {
-        $id = $data['id'];
+        $id = $request->getParams->id;
         //Logica para a alteração do registro
     }
 
@@ -34,9 +34,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function destroy($data)
+    public function destroy(Request $request)
     {
-        $id = $data['id'];
+        $id = $request->getParams->id;
         //Logica para a deleção do registro
     }
 }

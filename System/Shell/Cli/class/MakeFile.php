@@ -1,7 +1,7 @@
 <?php
 
-use Scooby\Helpers\Cli;
-use Scooby\Helpers\Debug;
+use Scooby\Kernel\Cli;
+use Scooby\Log\Log;
 
 class MakeFile
 {
@@ -15,7 +15,7 @@ class MakeFile
         $path = Cli::getParam('Por favor, DIGITE o caminho do arquivo a ser criado');
         if (file_exists(__DIR__ . "/$path/$name.$ext")) {
             Cli::println("ERROR: Arquivo já existente na pasta '$path'");
-            Debug::log("ERROR: Arquivo $name já existente na pasta '$path'");
+            Log::log("ERROR: Arquivo $name já existente na pasta '$path'");
             return;
         }
         $content = null;
@@ -34,17 +34,17 @@ class MakeFile
         $f = fopen("$path/$name.$ext", 'w+');
         if ($f == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na leitura do arquivo ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na leitura do arquivo ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
         if ($fw == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na escrita do arquivo ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na escrita do arquivo ' . $name . ', por favor tente novamente');
             return;
         }
         fclose($f);
         Cli::println("$name.$ext criado em '$path/' com sucesso.");
-        Debug::log("$name.$ext criado em '$path/' com sucesso.");
+        Log::log("$name.$ext criado em '$path/' com sucesso.");
     }
 }

@@ -8,7 +8,7 @@
   <link rel="icon" type="imagem/png" href="<?= SITE_ICON ?>" />
   <link rel="shortcut icon" type="imagem/x-icon" href="<?= SITE_ICON ?>" />
   <?php
-  \Scooby\Helpers\Seo::keywordsLoad();
+  \Scooby\Html\Seo::keywordsLoad();
   $op = new \CoffeeCode\Optimizer\Optimizer();
   define('OPTIMIZE', $op->optimize(
     $_SESSION['pageTitle'],
@@ -18,7 +18,7 @@
   )->render());
   echo OPTIMIZE;
   unset($_SESSION['pageTitle']);
-  use Scooby\Helpers\Assets;
+  use Scooby\Html\Assets;
   Assets::headerLoad();
   ?>
 </head>

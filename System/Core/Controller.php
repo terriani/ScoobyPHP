@@ -3,9 +3,9 @@
 namespace Scooby\Core;
 
 use Scooby\Helpers\Auth;
-use Scooby\Helpers\Debug;
+use Scooby\Log\Log;
 use Scooby\Helpers\Redirect;
-use Scooby\Helpers\Response;
+use Scooby\Http\Response;
 use \Twig\Loader\FilesystemLoader;
 use \Twig\Environment;
 
@@ -47,21 +47,13 @@ abstract class Controller
         $ViewName = ucwords($ViewName);
         if (in_array($ViewName, $viewAutentication) === true or in_array(strtolower($ViewName), $viewAutentication) === true) {
             if (Auth::authValidOrFail()) {
-                require_once 'System/Html/Templates/Header.php';
-                $template = $twig->load(ucfirst($viewPath).'/'.ucfirst($ViewName).'.twig');
-                extract($ViewData);
-                echo $template->render($ViewData);
-                require_once 'System/Html/Templates/Footer.php';
+                Response::html($ViewData, $ViewName, $viewPath, $twig);
             } else {
-                Debug::log('Tentativa de acesso a uma View protegida por autenticação');
+                Log::log('Tentativa de acesso a uma View protegida por autenticação');
                 Redirect::redirectTo('ooops/404');
             }
         } else {
-                require_once 'System/Html/Templates/Header.php';
-                $template = $twig->load(ucfirst($viewPath) . '/' . ucfirst($ViewName) . '.twig');
-                extract($ViewData);
-                echo $template->render($ViewData);
-                require_once 'System/Html/Templates/Footer.php';
+            Response::html($ViewData, $ViewName, $viewPath, $twig);
         }
         die;
     }
@@ -85,9 +77,9 @@ abstract class Controller
      * @param string|array $data
      * @return void
      */
-    public function Json($data, $code = 200)
+    public function json($data, $code = 200)
     {
-        return Response::Json($data, $code);
+        return Response::json($data, $code);
     }
 
     /**
@@ -100,6 +92,6 @@ abstract class Controller
      */
     public function debug($data, $msg = '', $logName = 'debug.log')
     {
-        Debug::debug($data, $msg, $logName);
+        Log::debug($data, $msg, $logName);
     }
 }

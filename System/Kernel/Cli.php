@@ -1,6 +1,6 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Kernel;
 
 /**
  * Ajuda com tarefas rotieniras do CLI

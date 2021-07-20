@@ -1,6 +1,6 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Http;
 
 class HttpErrorResponse
 {
