@@ -2,8 +2,6 @@
 
 namespace Scooby\Http;
 
-use Scooby;
-
 class Middlewares
 {
     /**

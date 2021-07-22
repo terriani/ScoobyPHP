@@ -2,7 +2,7 @@
 
 //Exemplo de rotas sem autenticação WEB
 $route->group(null);
-$route->get('/{id}', 'HomeController@index');
+$route->get('/', 'HomeController@index');
 
 /**
  * Para rota autenticadas no desenvolvimento web podemos usar a rota AUTH
