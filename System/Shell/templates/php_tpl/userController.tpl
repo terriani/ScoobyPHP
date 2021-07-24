@@ -46,8 +46,8 @@ class UserController extends Controller
     {
         Request::formValidate('email', 'email', ['required', 'email']);
         Request::formValidate('pass', 'senha', ['required', 'string', 'min'], 4);
-        $email =  $request->getRequest->email;
-        $pass =  $request->getRequest->pass;
+        $email =  $request->getRequest()->email;
+        $pass =  $request->getRequest()->pass;
         if (Login::loginValidate($email, $pass, "users", "email", "password", "id")) {
             Redirect::redirectTo('dashboard');
             exit;
@@ -80,9 +80,9 @@ class UserController extends Controller
         $request::formValidate('email', 'email', ['required', 'email']);
         $request::formValidate('pass', 'senha', ['required', 'string', 'min'], 4);
         if ($request::input("name") and $request::input("email") and $request::input("pass")) {
-            $name = $request->getRequest->name;
-            $email = $request->getRequest->email;
-            $pass = Login::passwordHash($request->getRequest->pass);
+            $name = $request->getRequest()->name;
+            $email = $request->getRequest()->email;
+            $pass = Login::passwordHash($request->getRequest()->pass);
             if (Validation::emailMatch($email, "users", "email")) {
                 $user = new User;
                 $user->name = $name;
@@ -125,7 +125,7 @@ class UserController extends Controller
             ]);
             exit;
         }
-        $email = $request->getRequest->email;
+        $email = $request->getRequest()->email;
         $token = md5(rand(999, 999999));
         $user = new User;
         $u = $user->where('email', $email)->first();

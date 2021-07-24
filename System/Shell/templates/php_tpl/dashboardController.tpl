@@ -74,9 +74,9 @@ class DashboardController extends Controller
     public function updateUser(Request $request): void
     {
         $id = Session::getSession('id');
-        $name = $request->getRequest->name;
-        $email = $request->getRequest->email;
-        $password = $request->getRequest->pass;
+        $name = $request->getRequest()->name;
+        $email = $request->getRequest()->email;
+        $password = $request->getRequest()->pass;
         $user =  new User;
         $u = $user->find($id);
         if (empty($password)) {

@@ -24,7 +24,7 @@ class $name extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->getParams->id;
+        $id = $request->getParams()->id;
         //Logica para a alteração do registro
     }
 
@@ -36,7 +36,7 @@ class $name extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->getParams->id;
+        $id = $request->getParams()->id;
         //Logica para a deleção do registro
     }
 }

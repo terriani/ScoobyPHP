@@ -21,7 +21,7 @@ class UserApiController extends Controller
      */
     public function register(Request $request): void
     {
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         if (!Validation::emailMatch($data->email, 'users', 'email')) {
             $this->json(['data' => 'Email já cadastrado, por favor tente com um email diferente']);
         }
@@ -40,7 +40,7 @@ class UserApiController extends Controller
      */
     public function login(Request $request): void
     {
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         if (Login::loginValidate($data->email, $data->pass)) {
             $getJwtData = Jwt::jwtCreate(['id' => $_SESSION['id'], 'email' => $data->email]);
             $token = $getJwtData->jwt;
@@ -103,7 +103,7 @@ class UserApiController extends Controller
     public function remoteLogout(Request $request): void
     {
        Jwt::jwtValidate(Jwt::jwtGetToken());
-       $token = $request->getRequest->remoteToken;
+       $token = $request->getRequest()->remoteToken;
        Jwt::jwtExpire($token);
        $logged = new LoggedTokens;
        $loggedId = $logged->where('token', $token)->get()->first()->toArray();
@@ -139,7 +139,7 @@ class UserApiController extends Controller
     public function alter(Request $request): void
     {
         Jwt::jwtValidate(Jwt::jwtGetToken());
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         $user = new User;
         $u = $user->find(Jwt::jwtPayloadDecode(Jwt::jwtGetToken())->id);
         if (empty($data->name)) {
@@ -162,7 +162,7 @@ class UserApiController extends Controller
 
     public function passwordRescue (Request $request)
     {
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         $email = $data->email;
         $token = $data->token;
         if (Validation::emailMatch($email, 'users', 'email')) {
@@ -186,7 +186,7 @@ class UserApiController extends Controller
 
     public function tokenValidate(Request $request)
     {
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         $token = $data->token;
         $tokenUsed = new PasswordUserToken;
         $used = $tokenUsed->where('token', $token)->first();
@@ -203,7 +203,7 @@ class UserApiController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $data = $request->getRequest;
+        $data = $request->getRequest();
         $newPass = new PasswordUserToken;
         $p = $newPass->where('token', $data->token)->first();
         $p->used = 1;
@@ -226,10 +226,10 @@ class UserApiController extends Controller
     {
         Jwt::jwtValidate(Jwt::jwtGetToken());
         $id = null;
-        if (empty($request->getRequest->id)) {
+        if (empty($request->getRequest()->id)) {
             $id = Jwt::jwtPayloadDecode(Jwt::jwtGetToken())->id;
         } else {
-            $id = $request->getRequest->id;
+            $id = $request->getRequest()->id;
         }
         $user = new User;
         $name = $user->find($id);
@@ -247,10 +247,10 @@ class UserApiController extends Controller
     {
         Jwt::jwtValidate(Jwt::jwtGetToken());
         $id = null;
-        if (empty($request->getRequest->id)) {
+        if (empty($request->getRequest()->id)) {
             $id = Jwt::jwtPayloadDecode(Jwt::jwtGetToken())->id;
         } else {
-            $id = $request->getRequest->id;
+            $id = $request->getRequest()->id;
         }
         $user = new User;
         $email = $user->find($id);
