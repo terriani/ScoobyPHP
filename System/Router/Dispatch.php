@@ -135,6 +135,9 @@ abstract class Dispatch
                 $request = (new Middleware)->next();
                 $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
                 $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
+                Request::setRequest($data->getRequest);
+                Request::setParams($data->getParams);
+                Request::setRoute($this->route);
                 call_user_func($this->route['handler'], ($data));
                 return true;
             }
@@ -153,6 +156,9 @@ abstract class Dispatch
                     }
                     $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
                     $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
+                    Request::setRequest($data->getRequest);
+                    Request::setParams($data->getParams);
+                    Request::setRoute($this->route);
                     $newController->$method($data);
                     return true;
                 }

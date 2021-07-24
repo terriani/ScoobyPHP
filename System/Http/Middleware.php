@@ -14,7 +14,7 @@ class Middleware
     }
     public function next()
     {
-        $data = Request::getRequestExcept(['route'], false);
+        $data = Request::getRequestDataExcept(['route'], false);
         if (!empty($this->middlewareQueue)) {
             foreach ($this->middlewareQueue as $middleware) {
                 $request = (new $middleware)->handle($data ?? []);
@@ -30,7 +30,7 @@ class Middleware
 
     public function especificActionNext($middleware)
     {
-        $data = Request::getRequestExcept(['route'], false);
+        $data = Request::getRequestDataExcept(['route'], false);
         $request = (new $middleware)->handle($data ?? []);
         if (!$request) {
             throw new Exception('Something broke!', 500);
