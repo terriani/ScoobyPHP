@@ -1,8 +1,8 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Log;
 
-class Debug
+class Log
 {
     /**
      * Grava um arquivo de debug em App/Logs com o nome do arquivo informado

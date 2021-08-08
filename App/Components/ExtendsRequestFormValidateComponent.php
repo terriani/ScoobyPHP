@@ -2,7 +2,7 @@
 
 namespace Scooby\Components;
 
-use Scooby\Helpers\Request;
+use Scooby\Http\Request;
 use Scooby\Helpers\FlashMessage;
 
 class ExtendsRequestFormValidateComponent extends Request

@@ -1,7 +1,9 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Guard;
 
+use Scooby\Http\Response;
+use Scooby\Log\Log;
 use Scooby\Models\Authorization;
 use Scooby\Models\LoggedTokens;
 use stdClass;
@@ -117,7 +119,7 @@ class Jwt
      * @param string $path
      * @return void
      */
-    public static function jwtRefresh(string $token/* , string $path = 'System/SysConfig/BlackList.txt' */)
+    public static function jwtRefresh(string $token)
     {
         $data = (array) self::jwtPayloadDecode($token);
         self::jwtSaltGenerate();
@@ -161,7 +163,7 @@ class Jwt
         $f = fopen(".env", 'w+');
         fwrite($f, $generate);
         fclose($f);
-        Debug::log('SALT gerado em .env');
+        Log::log('SALT gerado em .env');
     }
 
     /**

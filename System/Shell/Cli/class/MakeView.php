@@ -1,7 +1,7 @@
 <?php
 
-use Scooby\Helpers\Cli;
-use Scooby\Helpers\Debug;
+use Scooby\Kernel\Cli;
+use Scooby\Log\Log;
 
 class MakeView
 {
@@ -12,7 +12,7 @@ class MakeView
         $name = ucfirst($name);
         if (file_exists("App/Views/Pages/$name.twig")) {
             Cli::println("ERROR: View já existente na pasta 'App/Views/Pages'");
-            Debug::log("ERROR: View $name já existente na pasta 'App/Views/Pages'");
+            Log::log("ERROR: View $name já existente na pasta 'App/Views/Pages'");
             return;
         }
         $content = file_get_contents('System/Shell/templates/twig_tpl/viewFile.tpl');
@@ -23,18 +23,18 @@ class MakeView
         $f = fopen("App/Views/Pages/$name.twig", 'w+');
         if ($f == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
         if ($fw == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
             return;
         }
         fclose($f);
         Cli::println("$name criado em 'App/Views/Pages' com sucesso.");
-        Debug::log("$name criado em 'App/Views/Pages' com sucesso.");
+        Log::log("$name criado em 'App/Views/Pages' com sucesso.");
     }
 
     public static function execOptionMakeViewAuth()
@@ -44,7 +44,7 @@ class MakeView
         $name = ucfirst($name);
         if (file_exists("App/Views/Pages/$name.twig")) {
             Cli::println("ERROR: View já existente na pasta 'App/Views/Pages'");
-            Debug::log("ERROR: View $name já existente na pasta 'App/Views/Pages'");
+            Log::log("ERROR: View $name já existente na pasta 'App/Views/Pages'");
             return;
         }
         $content = file_get_contents('System/Shell/templates/twig_tpl/viewFile.tpl');
@@ -59,32 +59,32 @@ class MakeView
         $f = fopen("App/Views/Pages/$name.twig", 'w+');
         if ($f == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
         if ($fw == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
             return;
         }
         fclose($f);
         $f = fopen('.env', 'w+');
         if ($f == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na leitura do arquivo .ENV, por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na leitura do arquivo .ENV, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $register);
         if ($fw == false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
-            Debug::log('Um erro desconhecido ocorreu na ecrita do arquivo .ENV, por favor tente novamente');
+            Log::log('Um erro desconhecido ocorreu na ecrita do arquivo .ENV, por favor tente novamente');
             return;
         }
         fclose($f);
         Cli::println("$name criado em 'App/Views/Pages' com sucesso.");
-        Debug::log("$name criado em 'App/Views/Pages' com sucesso.");
-        Debug::log(".ENV alterado com sucesso.");
+        Log::log("$name criado em 'App/Views/Pages' com sucesso.");
+        Log::log(".ENV alterado com sucesso.");
 
     }
 }

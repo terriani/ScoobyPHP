@@ -521,7 +521,7 @@ class HomeController extends Controller
 }
 ```
  
-Muitas vezes em que estamos escrevendo uma aplicação, principalmente quando estamos criando uma **API**, precisamos retornar não uma **view**, mas sim um **Json**, para retornar um jason no ScoobyPHP basta chamar $this->Json() e passar um array com os dados a ser retornado
+Muitas vezes em que estamos escrevendo uma aplicação, principalmente quando estamos criando uma **API**, precisamos retornar não uma **view**, mas sim um **Json**, para retornar um jason no ScoobyPHP basta chamar $this->json() e passar um array com os dados a ser retornado
 
 ```php
 
@@ -538,7 +538,7 @@ class HomeController extends Controller
     */
     public function index(): void
     {
-        $this->Json(['data' => 'Dado a ser retornado']);
+        $this->json(['data' => 'Dado a ser retornado']);
     }
 }
 ```
@@ -566,7 +566,7 @@ class HomeController extends Controller
     {
         $user = new User;
         $u = $user->find(1);
-        $this->Json(['user' => $u->name']);
+        $this->json(['user' => $u->name']);
     }
 }
 ```

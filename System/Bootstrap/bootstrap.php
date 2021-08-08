@@ -1,11 +1,11 @@
 <?php
 
-use Scooby\Helpers\Csrf;
+use Scooby\Guard\Csrf;
 use Scooby\Helpers\Redirect;
 use Scooby\Helpers\Session as sess;
-use Scooby\Helpers\Jwt;
+use Scooby\Guard\Jwt;
 use Dotenv\Dotenv;
-use Scooby\Helpers\Debug;
+use Scooby\Log\Log;
 
 session_start();
 if (!file_exists('vendor/autoload.php')) {
@@ -43,7 +43,7 @@ if (IS_API == 'true') {
 sess::sessionTokenGenerate();
 if (!sess::sessionTokenValidade()) {
     if (getenv('SESSION_VALIDADTION') == 'true') {
-        Debug::log('Falha na autenticação do hash de sessão');
+        Log::log('Falha na autenticação do hash de sessão');
         die('Opss... Algo saiu errado por favor tente novamente');
     }
 }
@@ -77,7 +77,7 @@ foreach ($dir as $file) {
     require_once "App/Routes/$file";
 }
 $route->get('/denied', function() {
-    Debug::log('Tentativa de acesso a área restrita');
+    Log::log('Tentativa de acesso a área restrita');
     $url = $_SERVER['SERVER_NAME'];
     Redirect::redirectTo($url."/".ROUTE_ERROR."/");
     return false;

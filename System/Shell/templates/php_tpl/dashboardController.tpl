@@ -5,11 +5,10 @@
 namespace Scooby\Controllers;
 
 use Scooby\Models\User;
-use Scooby\Helpers\Redirect;
 use Scooby\Helpers\FlashMessage;
 use Scooby\Helpers\Login;
 use Scooby\Helpers\Session;
-use Scooby\Helpers\Request;
+use Scooby\Http\Request;
 
 
 class DashboardController extends Controller
@@ -72,12 +71,12 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function updateUser(): void
+    public function updateUser(Request $request): void
     {
         $id = Session::getSession('id');
-        $name = Request::post('name');
-        $email = Request::post('email');
-        $password = Request::post('pass');
+        $name = $request->getRequest()->name;
+        $email = $request->getRequest()->email;
+        $password = $request->getRequest()->pass;
         $user =  new User;
         $u = $user->find($id);
         if (empty($password)) {

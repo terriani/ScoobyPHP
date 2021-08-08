@@ -1,5 +1,5 @@
 <?php
-use Scooby\Helpers\Assets;
+use Scooby\Html\Assets;
     Assets::bodyBottomLoad();
 ?>
 </body>

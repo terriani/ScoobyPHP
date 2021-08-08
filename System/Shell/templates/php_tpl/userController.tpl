@@ -8,7 +8,7 @@ use Scooby\Helpers\Email;
 use Scooby\Helpers\FlashMessage;
 use Scooby\Helpers\Login;
 use Scooby\Helpers\Redirect;
-use Scooby\Helpers\Request;
+use Scooby\Http\Request;
 use Scooby\Helpers\Validation;
 use Scooby\Models\PasswordUserToken;
 use Scooby\Models\User;
@@ -42,12 +42,12 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function login(): void
+    public function login(Request $request): void
     {
         Request::formValidate('email', 'email', ['required', 'email']);
         Request::formValidate('pass', 'senha', ['required', 'string', 'min'], 4);
-        $email =  Request::input("email");
-        $pass =  Request::input("pass");
+        $email =  $request->getRequest()->email;
+        $pass =  $request->getRequest()->pass;
         if (Login::loginValidate($email, $pass, "users", "email", "password", "id")) {
             Redirect::redirectTo('dashboard');
             exit;
@@ -74,15 +74,15 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function saveUser(): void
+    public function saveUser(Request $request): void
     {
-        Request::formValidate('name', 'nome', ['required', 'string', 'max'], 60);
-        Request::formValidate('email', 'email', ['required', 'email']);
-        Request::formValidate('pass', 'senha', ['required', 'string', 'min'], 4);
-        if (Request::input("name") and Request::input("email") and Request::input("pass")) {
-            $name = Request::input("name");
-            $email = Request::input("email");
-            $pass = Login::passwordHash(Request::input("pass"));
+        $request::formValidate('name', 'nome', ['required', 'string', 'max'], 60);
+        $request::formValidate('email', 'email', ['required', 'email']);
+        $request::formValidate('pass', 'senha', ['required', 'string', 'min'], 4);
+        if ($request::input("name") and $request::input("email") and $request::input("pass")) {
+            $name = $request->getRequest()->name;
+            $email = $request->getRequest()->email;
+            $pass = Login::passwordHash($request->getRequest()->pass);
             if (Validation::emailMatch($email, "users", "email")) {
                 $user = new User;
                 $user->name = $name;
@@ -117,7 +117,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function newPass(): void
+    public function newPass(Request $request): void
     {
         if (empty(Request::input("email"))) {
             $this->view('pages', 'PasswordRescue', [
@@ -125,7 +125,7 @@ class UserController extends Controller
             ]);
             exit;
         }
-        $email = Request::input("email");
+        $email = $request->getRequest()->email;
         $token = md5(rand(999, 999999));
         $user = new User;
         $u = $user->where('email', $email)->first();

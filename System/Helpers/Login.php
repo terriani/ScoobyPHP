@@ -3,6 +3,9 @@
 namespace Scooby\Helpers;
 
 use Illuminate\Database\Capsule\Manager as db;
+use Scooby\Factory\Helper;
+use Scooby\Guard\Csrf;
+use Scooby\Log\Log;
 use Scooby\Models\User;
 
 class Login
@@ -74,12 +77,11 @@ class Login
      */
     public static function loginValidate($email, $pass, $table = 'users', $emailField = 'email', $passwordField = 'password', $idField = 'id', $nameField = 'name'): bool
     {
-        $helper = new Helper;
         if (!Csrf::csrfTokenValidate() and IS_API == 'false') {
-            Debug::log('Login recusado, falha na autenticação de csrf');
+            Log::log('Login recusado, falha na autenticação de csrf');
             Redirect::redirectTo('ooops/404');
         }
-                $helper->illuminateDb();
+                Helper::illuminateDb();
                 $storageEmail = DB::table($table)->where($emailField, $email)->value($emailField);
                 if ($storageEmail == $email) {
                     $storagePass = DB::table($table)->where($emailField, $email)->value($passwordField);

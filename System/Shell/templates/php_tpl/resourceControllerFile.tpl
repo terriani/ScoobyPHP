@@ -42,9 +42,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function show($data): void
+    public function show(Request $request): void
     {
-        $id = $data['id'];
+        $id = $request->getParams()->id;
         $this->view("Pages", "", []);
     }
 
@@ -55,9 +55,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function edit($data): void
+    public function edit(Request $request): void
     {
-        $id = $data['id'];
+        $id = $request->getParams()->id;
         $this->view("Pages", "", []);
     }
 
@@ -67,9 +67,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function update($data)
+    public function update(Request $request)
     {
-        $id = $data['id'];
+        $id = $request->getParams()->id;
         //Logica para a alteração do registro
     }
 
@@ -79,9 +79,9 @@ class $name extends Controller
      * @param array $data
      * @return void
      */
-    public function destroy($data)
+    public function destroy(Request $request)
     {
-        $id = $data['id'];
+        $id = $request->getParams()->id;
         //Logica para a deleção do registro
     }
 }

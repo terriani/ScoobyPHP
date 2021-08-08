@@ -1,11 +1,11 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Html;
 
 class Seo
 {
     /*
-     * Carrega as keywords do projeto na meta tag 
+     * Carrega as keywords do projeto na meta tag
      *
      * @return void
      */

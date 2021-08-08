@@ -1,7 +1,7 @@
 <?php
 
-use Scooby\Helpers\Cli;
-use Scooby\Helpers\Debug;
+use Scooby\Kernel\Cli;
+use Scooby\Log\Log;
 
 class MakeReactApp
 {
@@ -10,7 +10,7 @@ class MakeReactApp
         $appName = APP_NAME;
         if (shell_exec("npx create-react-app react-app --save")) {
             Cli::println("\033[1;96m Front-end gerado com sucesso em ReactJs\n");
-            Debug::log("Front-end gerado com sucesso em ReactJs\n");
+            Log::log("Front-end gerado com sucesso em ReactJs\n");
             sleep(1);
             chdir("react-app");
             Cli::println("Executando servidor, por favor aguarde...\n");
@@ -19,6 +19,6 @@ class MakeReactApp
             exit;
         }
         Cli::println('Erro ao gerar estrutura front-end em reactJs');
-        Debug::log('Erro ao gerar estrutura front-end em reactJs');
+        Log::log('Erro ao gerar estrutura front-end em reactJs');
     }
 }

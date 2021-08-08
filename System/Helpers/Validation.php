@@ -3,6 +3,7 @@
 namespace Scooby\Helpers;
 
 use Illuminate\Database\Capsule\Manager as db;
+use Scooby\Factory\Helper;
 
 /**
  * Classe de validação e sanitização de dados.
@@ -71,8 +72,7 @@ class Validation
             return false;
         }
         $value = self::sanitizeEmail($value);
-        $helper = new Helper;
-        $helper->illuminateDb();
+        Helper::illuminateDb();
         if (DB::table($tableName)->where($emailField, $value)->count() > 0 === true) {
             return false;
         }

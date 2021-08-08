@@ -1,9 +1,9 @@
 <?php
 
-use Scooby\Helpers\Response;
+use Scooby\Http\Response;
 
 //Exemplo de rotas sem autenticação API
 $route->group('api');
 $route->get('/', function() {
-    Response::Json(['data' => 'Bem-vindo ao ScoobyPHP']);
+    Response::json(['data' => 'Bem-vindo ao ScoobyPHP']);
 });

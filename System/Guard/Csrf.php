@@ -1,6 +1,8 @@
 <?php
 
-namespace Scooby\Helpers;
+namespace Scooby\Guard;
+
+use Scooby\Log\Log;
 
 class Csrf
 {
@@ -37,17 +39,17 @@ class Csrf
     public static function csrfTokenValidate(): bool
     {
         if (!isset($_SESSION['csrfToken']) or empty($_SESSION['csrfToken'])) {
-            Debug::log('Erro - o token de csrf não foi encontrado ativo na sessão');
+            Log::log('Erro - o token de csrf não foi encontrado ativo na sessão');
             return false;
         }
         if (!isset($_REQUEST['csrfToken']) or empty($_REQUEST['csrfToken'])) {
-            Debug::log('Erro - o token de csrf não foi encontrado ativo na requisição');
+            Log::log('Erro - o token de csrf não foi encontrado ativo na requisição');
             return false;
         }
         if (isset($_SESSION['csrfToken']) and !empty($_SESSION['csrfToken']) and isset($_REQUEST['csrfToken']) and !empty($_REQUEST['csrfToken']) and $_REQUEST['csrfToken'] === $_SESSION['csrfToken']) {
             return true;
         } else {
-            Debug::log('Erro - o token de csrf não na sessão não é compatível com o da requisição');
+            Log::log('Erro - o token de csrf não na sessão não é compatível com o da requisição');
             return false;
         }
     }
