@@ -160,12 +160,12 @@ class Request
             }
         }
         if (empty($param)) {
-            return self::filterRequest(self::$requestData);
+            return ($obj) ? (object) self::filterRequest(self::$requestData) : (array) self::filterRequest(self::$requestData);
         }
         if (is_string($param)) {
             foreach (self::$requestData as $key => $value) {
                 if ($key === $param) {
-                    return self::filterRequest($value);
+                    return ($obj) ? (object) self::filterRequest($value) : (array) self::filterRequest($value);
                 }
             }
         }
