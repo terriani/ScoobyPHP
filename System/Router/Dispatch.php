@@ -133,10 +133,8 @@ abstract class Dispatch
         if ($this->route) {
             if (is_callable($this->route['handler'])) {
                 $request = (new Middleware)->next();
-                $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
-                $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
-                Request::setRequest($data->getRequest);
-                Request::setParams($data->getParams);
+                Request::setRequest((!empty($request)) ? (object) $request : new stdClass);
+                Request::setParams((!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass);
                 Request::setRoute($this->route);
                 call_user_func($this->route['handler'], ($data));
                 return true;
@@ -154,10 +152,8 @@ abstract class Dispatch
                             $request = (new Middleware)->especificActionNext($middlewareAction);
                         }
                     }
-                    $data->getRequest = (!empty($request)) ? (object) $request : new stdClass;
-                    $data->getParams = (!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass;
-                    Request::setRequest($data->getRequest);
-                    Request::setParams($data->getParams);
+                    Request::setRequest((!empty($request)) ? (object) $request : new stdClass);
+                    Request::setParams((!empty($this->route['data'])) ? (object) $this->route['data'] : new stdClass);
                     Request::setRoute($this->route);
                     $newController->$method($data);
                     return true;

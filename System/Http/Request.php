@@ -82,6 +82,7 @@ class Request
                 }
                 return (object) $data;
         }
+        return [];
     }
 
     /**
@@ -128,6 +129,7 @@ class Request
                 }
                 return (object) $data;
         }
+        return [];
     }
 
     public static function setRequest($data)
@@ -483,6 +485,7 @@ class Request
             $arrPath[] = $path . $fileName . '.' . $ext;
             return [true, $arrPath];
         }
+        return [];
     }
 
     /**
