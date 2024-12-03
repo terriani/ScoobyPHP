@@ -14,9 +14,9 @@ class MakeNewDb
         Cli::println('Você optou por criar um novo banco de dados.');
         $name = Cli::getParam('Por favor, DIGITE o nome do Banco a ser criada');
         try {
-            if (getenv('ENV') == 'development') {
+            if (getenv('ENV') === 'development') {
                 $conn = new PDO(getenv('DB_DRIVER') . ":host=" . getenv('DB_HOST') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'), [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
-            } elseif (getenv('ENV') == 'production') {
+            } elseif (getenv('ENV') === 'production') {
                 $conn = new PDO(getenv('PROD_DB_DRIVER') . ":host=" . getenv('PROD_DB_HOST') . ";charset=utf8", getenv('PROD_DB_USER'), getenv('PROD_DB_PASS'), [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
             }
         } catch (Exception $e) {
@@ -30,7 +30,7 @@ class MakeNewDb
         if ($test->fetchColumn()) {
             Cli::println('Opss...: Banco de dados já existente, deseja se conectar a ele ?');
             $connect = Cli::getParam('DIGITE: Y para sim ou N para não');
-            if ($connect == 'y' or $connect == 'Y') {
+            if ($connect === 'y' or $connect === 'Y') {
                 $dbUser = Cli::getParam('Por favor digite o usuário do banco de dados ' . $name);
                 $dbpass = Cli::getParam('por favor digite a senha do usuário do banco de dados ' . $name);
                 $connectionUpdate = file_get_contents('.env');
@@ -40,13 +40,13 @@ class MakeNewDb
                     "DB_PASS=" =>  "DB_PASS=$dbpass"
                 ]);
                 $f = fopen(".env", 'w+');
-                if ($f == false) {
+                if ($f === false) {
                     Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
                     Log::log('Um erro desconhecido ocorreu na leitura do .ENV, por favor tente novamente');
                     return;
                 }
                 $fw = fwrite($f, $connectionUpdate);
-                if ($fw == false) {
+                if ($fw === false) {
                     Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
                     Log::log('Um erro desconhecido ocorreu na escrita do .ENV, por favor tente novamente');
                     return;
@@ -70,13 +70,13 @@ class MakeNewDb
 
             ]);
             $f = fopen(".env", 'w+');
-            if ($f == false) {
+            if ($f === false) {
                 Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
                 Log::log('Um erro desconhecido ocorreu na leitura do .ENV, por favor tente novamente');
                 return;
             }
             $fw = fwrite($f, $configDb);
-            if ($fw == false) {
+            if ($fw === false) {
                 Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
                 Log::log('Um erro desconhecido ocorreu na escrita do .ENV, por favor tente novamente');
                 return;

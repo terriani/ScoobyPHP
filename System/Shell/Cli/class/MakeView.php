@@ -21,13 +21,13 @@ class MakeView
             '$name' => $name
         ]);
         $f = fopen("App/Views/Pages/$name.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
             return;
@@ -57,26 +57,26 @@ class MakeView
             'VIEWS_AUTH=' => 'VIEWS_AUTH=' . $name . ','
         ]);
         $f = fopen("App/Views/Pages/$name.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura da view ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita da view ' . $name . ', por favor tente novamente');
             return;
         }
         fclose($f);
         $f = fopen('.env', 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura do arquivo .ENV, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $register);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na ecrita do arquivo .ENV, por favor tente novamente');
             return;

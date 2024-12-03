@@ -1,0 +1,9 @@
+{
+    "MSG_UPLOAD_FAIL": "Erro ao fazer o upload",
+    "UNKNOWN_ERROR": "Erro desconhecido",
+    "CONNECTION_FAILURE_TITLE": "Falha na conexão",
+    "CONNECTION_FAILURE": "Não foi possível se conectar a internet, verifique sua conexão",
+    "CONNECTION_TITLE": "Conexão restabelecida",
+    "RESTORED_CONNECTION": "Tudo certo, sua conexão foi restabelecida",
+    "SOMETHING_WRONG": "Algo saiu errado, por favor tente novante"
+}

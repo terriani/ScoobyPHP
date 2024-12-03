@@ -10,13 +10,14 @@ class Log
      *
      * @param mixed $data
      * @param string $msg
-     * @param string $path
+     * @param string $logName
      * @return void
      */
-    public static function debug($data, string $msg = '', string $logName = 'debug.log')
+    public static function debug($data, string $msg = '', string $logName = 'debug.log'): void
     {
         if (!file_exists('App/Logs/' . $logName)) {
-            touch('App/Logs/' . $logName, 0777, true);
+            touch('App/Logs/' . $logName);
+            chmod('App/Logs/error.log', 0777);
         }
         if (empty($msg)) {
             $msg = 'Não Informado';
@@ -29,19 +30,36 @@ class Log
      * caso nenhum nome seja informado o log será gravado em logs.log
      *
      * @param string $msg
-     * @param string $path
      * @return void
      */
-    public static function log($msg = '', string $logName = 'logs.log')
+    public static function log($msg = '', string $logName = 'logs.log'): void
     {
-        if (getenv('LOG') == 'true') {
+        if (filter_var(getenv('LOG'), FILTER_VALIDATE_BOOL)) {
             if (!file_exists('App/Logs/' . $logName)) {
-                touch('App/Logs/' . $logName, 0777, true);
+                touch('App/Logs/' . $logName);
+                chmod('App/Logs/error.log', 0777);
             }
             if (empty($msg)) {
                 $msg = 'Não Informado';
             }
             file_put_contents('App/Logs/' . $logName, "Log criado em - " . date('Y-m-d H:i:s') . "\n\nMessage: " . $msg . "\n\nEnd Log \n------------------------------------------------------------------------------------------- \n\n", FILE_APPEND);
         }
+    }
+
+    /**
+     * Grava um arquivo de Log em App/Logs com os erros da aplicação
+     * caso nenhum nome seja informado o log será gravado em logs.log
+     *
+     * @param string $msg
+     * @return void
+     */
+    public static function error($msg): void
+    {
+        if (!file_exists('App/Logs/error.log')) {
+            touch('App/Logs/error.log');
+            chmod('App/Logs/error.log', 0777);
+        }
+
+        file_put_contents('App/Logs/error.log', 'Logged at: ' . date('Y-m-d H:i:s') . "\n\nMessage " . $msg . "\n\nEnd Log \n------------------------------------------------------------------------------------------- \n\n", FILE_APPEND);
     }
 }

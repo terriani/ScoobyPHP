@@ -1,0 +1,10 @@
+{
+    "MSG_UPLOAD_FAIL": "Error uploading",
+    "UNKNOWN_ERROR": "Unknown error",
+    "CONNECTION_FAILURE_TITLE": "Connection failure",
+    "CONNECTION_FAILURE": "Unable to connect to the Internet, check your connection",
+    "CONNECTION_TITLE": "Restored connection",
+    "RESTORED_CONNECTION": "All right, your connection has been re-established",
+    "SOMETHING_WRONG": "Something went wrong, please try again"
+
+}

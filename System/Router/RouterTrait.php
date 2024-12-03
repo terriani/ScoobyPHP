@@ -25,7 +25,7 @@ trait RouterTrait
     {
         foreach ($this->routes as $http_verb) {
             foreach ($http_verb as $route_item) {
-                if (!empty($route_item["name"]) && $route_item["name"] == $name) {
+                if (!empty($route_item["name"]) && $route_item["name"] === $name) {
                     return $this->treat($route_item, $data);
                 }
             }
@@ -49,7 +49,7 @@ trait RouterTrait
             exit;
         }
 
-        $route = (substr($route, 0, 1) == "/" ? $route : "/{$route}");
+        $route = (substr($route, 0, 1) === "/" ? $route : "/{$route}");
         header("Location: {$this->projectUrl}{$route}");
         exit;
     }
@@ -60,10 +60,10 @@ trait RouterTrait
      * @param string|callable $handler
      * @param null|string
      */
-    protected function addRoute(string $method, string $route, $handler, string $name = null): void
+    protected function addRoute(string $method, string $route, $handler, string $name = null, $middlewares = []): void
     {
-        if ($route == "/") {
-            $this->addRoute($method, "", $handler, $name);
+        if ($route === "/") {
+            $this->addRoute($method, "", $handler, $name, $middlewares);
         }
 
         preg_match_all("~\{\s* ([a-zA-Z_][a-zA-Z0-9_-]*) \}~x", $route, $keys, PREG_SET_ORDER);
@@ -79,14 +79,15 @@ trait RouterTrait
         $route = (!$this->group ? $route : "/{$this->group}{$route}");
         $data = $this->data;
         $namespace = $this->namespace;
-        $router = function() use ($method, $handler, $data, $route, $name, $namespace) {
+        $router = function() use ($method, $handler, $data, $route, $name, $namespace, $middlewares) {
             return [
                 "route" => $route,
                 "name" => $name,
                 "method" => $method,
                 "handler" => $this->handler($handler, $namespace),
                 "action" => $this->action($handler),
-                "data" => $data
+                "data" => $data,
+                'middlewares' => $middlewares,
             ];
         };
 

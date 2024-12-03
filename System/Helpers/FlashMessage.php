@@ -36,7 +36,7 @@ HTML;
      * @param string $url
      * @return void
      */
-    public static function toastWithHref(string $title, string $body, string $type = "show", string $url): void
+    public static function toastWithHref(string $title, string $body, string $type = "show", string $url = ''): void
     {
         require_once "System/Html/Templates/Header.php";
         $url = BASE_URL . $url;
@@ -114,7 +114,7 @@ HTML;
      * @param string $url
      * @return void
      */
-    public static function modalWithHref(string $title, string $body, string $type = "show", string $url): void
+    public static function modalWithHref(string $title, string $body, string $type = "show", string $url = ''): void
     {
         require_once "System/Html/Templates/Header.php";
         $url = BASE_URL . $url;

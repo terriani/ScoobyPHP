@@ -77,13 +77,13 @@ class Login
      */
     public static function loginValidate($email, $pass, $table = 'users', $emailField = 'email', $passwordField = 'password', $idField = 'id', $nameField = 'name'): bool
     {
-        if (!Csrf::csrfTokenValidate() and IS_API == 'false') {
+        if (!Csrf::csrfTokenValidate() and IS_API) {
             Log::log('Login recusado, falha na autenticação de csrf');
             Redirect::redirectTo('ooops/404');
         }
                 Helper::illuminateDb();
                 $storageEmail = DB::table($table)->where($emailField, $email)->value($emailField);
-                if ($storageEmail == $email) {
+        if ($storageEmail === $email) {
                     $storagePass = DB::table($table)->where($emailField, $email)->value($passwordField);
                     if (password_verify($pass, $storagePass)) {
                         $id = DB::table($table)->where($emailField, $email)->value($idField);

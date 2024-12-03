@@ -1,8 +1,13 @@
 <?php
 
 //Exemplo de rotas sem autenticação WEB
+// Group aceita um array com os middlewares aceitos nas rotas do grupo
+// Rotas aceitam um array com os middlewares aceitos na rota
 $route->group(null);
 $route->get('/', 'HomeController@index');
+$route->get('/teste', function () {
+    echo 'teste';
+});
 
 /**
  * Para rota autenticadas no desenvolvimento web podemos usar a rota AUTH

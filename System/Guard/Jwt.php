@@ -51,11 +51,11 @@ class Jwt
         $logged = new LoggedTokens;
         $l = $logged->where('token', $token)->get()->first();
         $key = $l->app_key;
-        if (count($jwt) == 3) {
+        if (count($jwt) === 3) {
             $signature = hash_hmac("sha256", $jwt[0] . '.' . $jwt[1], $key, true);
             $signatureToken = self::base64_encode_url($signature);
 
-            if ($signatureToken == $jwt[2] and isset($jwt[2])) {
+            if ($signatureToken === $jwt[2] and isset($jwt[2])) {
                 return true;
             } else {
                 Response::json(['data' => 'Token Inválido']);
@@ -157,13 +157,19 @@ class Jwt
     {
         $key = hash('sha256', md5(rand(11111111, 99999999) . uniqid(rand(), true) . time()));
         $generate = file_get_contents('.env');
+
+        if (!str_contains($generate, 'SECRET_KEY=secret')) {
+            return;
+        }
+
         $generate = strtr($generate, [
             $secret =>  "$key"
         ]);
         $f = fopen(".env", 'w+');
         fwrite($f, $generate);
         fclose($f);
-        Log::log('SALT gerado em .env');
+        $_SESSION['int'] += 1;
+        Log::log('SALT gerado em .env' . $key);
     }
 
     /**

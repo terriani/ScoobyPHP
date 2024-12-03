@@ -34,6 +34,8 @@ abstract class Dispatch
 
     private $middlewareActionQueue = [];
 
+    private $middlewares = [];
+
     /** @const int Bad Request */
     public const BAD_REQUEST = 400;
 
@@ -54,7 +56,7 @@ abstract class Dispatch
      */
     public function __construct(string $projectUrl, ?string $separator = "@")
     {
-        $this->projectUrl = (substr($projectUrl, "-1") == "/" ? substr($projectUrl, 0, -1) : $projectUrl);
+        $this->projectUrl = (substr($projectUrl, "-1") === "/" ? substr($projectUrl, 0, -1) : $projectUrl);
         $this->patch = (filter_input(INPUT_GET, "route", FILTER_DEFAULT) ?? "/");
         $this->separator = ($separator ?? "@");
         $this->httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -79,12 +81,19 @@ abstract class Dispatch
         return $this;
     }
 
+    public function middleware(array $middlewares = []): Dispatch
+    {
+        $this->middlewares = $middlewares;
+        return $this;
+    }
+
     /**
      * @param null|string $group
      * @return Dispatch
      */
-    public function group(?string $group): Dispatch
+    public function group(?string $group, array $middlewares = []): Dispatch
     {
+        $this->middleware($middlewares);
         $this->group = ($group ? str_replace("/", "", $group) : null);
         return $this;
     }
@@ -147,9 +156,19 @@ abstract class Dispatch
                 if (method_exists($controller, $method)) {
                     $request = (new Middleware)->next();
                     $middlewareActionToExecute = explode('\\', $controller)[2] . $this->separator . $method;
-                    foreach ($this->middlewareActionQueue as $key => $middlewareAction) {
-                        if ($key === $middlewareActionToExecute) {
-                            $request = (new Middleware)->especificActionNext($middlewareAction);
+                    $middlewares = array_merge($this->route['middlewares'] ?? [], $this->middlewares ?? []);
+                    unset($this->route['middlewares']);
+                    unset($this->middlewares);
+                    $this->middlewares[$middlewareActionToExecute] = $middlewares;
+                    foreach ($this->middlewares ?? $this->middlewareActionQueue as $key => $middlewareAction) {
+                        if (is_array($middlewareAction)) {
+                            foreach ($middlewareAction as $k => $middleware) {
+                                $request = (new Middleware)->especificActionNext($middleware, $request);
+                            }
+                        } else {
+                            if ($key === $middlewareActionToExecute) {
+                                $request = (new Middleware)->especificActionNext($middlewareAction);
+                            }
                         }
                     }
                     Request::setRequest((!empty($request)) ? (object) $request : new stdClass);
@@ -186,7 +205,7 @@ abstract class Dispatch
             return;
         }
 
-        if ($this->httpMethod == "POST") {
+        if ($this->httpMethod === "POST") {
             $this->data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
             unset($this->data["_method"]);

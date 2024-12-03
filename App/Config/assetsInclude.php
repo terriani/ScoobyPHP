@@ -1,27 +1,28 @@
 <?php
 
-require_once 'App/Config/Lang/' . SITE_LANG . '.php';
+use Scooby\I18n\I18n;
 
 $html = [
     'header' => [
-        "<link rel='stylesheet' href='" . NODE_MODULES . "animate.css/animate.min.css'>",
-        "<link rel='stylesheet' href='".NODE_MODULES."materialize-css/dist/css/materialize.min.css'>",
+        "<link rel='stylesheet' href='" . ROUTE . "/node_modules/animate.css/animate.min.css'>",
+        "<link rel='stylesheet' href='". ROUTE ."/node_modules/materialize-css/dist/css/materialize.min.css'>",
         "<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>",
 
         /**
          * Este arquivo carrega todos os arquivos JS minificados criados na pasta App/Public/assets/js/
          */
-        "<link rel='stylesheet' href='" . ROOT_PATH . "/System/MinifyFiles/min-css/scooby" . ASSETS_HASH . ".min.css'>",
+        "<link rel='stylesheet' href='" . ROUTE . "/System/MinifyFiles/min-css/scooby" . ASSETS_HASH . ".min.css'>",
     ],
     'bodyTop' => [
-        "<script src='" . NODE_MODULES . "jquery/dist/jquery.min.js'></script>",
-        "<script src='" . NODE_MODULES . "sweetalert2/dist/sweetalert2.all.min.js'></script>",
-        "<script src='".NODE_MODULES."materialize-css/dist/js/materialize.min.js'></script>",
+        "<script src='" . ROUTE . "/node_modules/jquery/dist/jquery.min.js'></script>",
+        "<script src='" . ROUTE . "/node_modules/sweetalert2/dist/sweetalert2.all.min.js'></script>",
+        "<script src='". ROUTE . "/node_modules/materialize-css/dist/js/materialize.min.js'></script>",
 
         /**
          * Este arquivo carrega todos os arquivos JS minificados criados na pasta App/Public/assets/js/
          */
-        "<script src='" . ROOT_PATH . "/System/MinifyFiles/min-js/scooby" . ASSETS_HASH . ".min.js'></script>"
+
+        "<script src='" . ROUTE . "/System/MinifyFiles/min-js/scooby" . ASSETS_HASH . ".min.js'></script>"
     ],
     'bodyBottom' => [
 
@@ -32,10 +33,10 @@ $html = [
          */
         '<script>
             isOnline(
-                "' . $GLOBALS["CONNECTION_FAILURE_TITLE"] . '",
-                "' . $GLOBALS["CONNECTION_FAILURE"] . '",
-                "' . $GLOBALS["CONNECTION_TITLE"] . '",
-                "' . $GLOBALS["RESTORED_CONNECTION"] . '"
+                "' . I18n::translate("error", "CONNECTION_FAILURE_TITLE") . '",
+                "' . I18n::translate("error", "CONNECTION_FAILURE") . '",
+                "' . I18n::translate("error", "CONNECTION_TITLE") . '",
+                "' . I18n::translate("error", "RESTORED_CONNECTION") . '"
             )
         </script>'
     ]

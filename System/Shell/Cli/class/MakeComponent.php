@@ -22,13 +22,13 @@ class MakeComponent
             '$name' => $name
         ]);
         $f = fopen("App/Components/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo base de components');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo base de components');
             return;
         }

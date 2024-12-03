@@ -21,13 +21,13 @@ class MakeModel
             '$name' => $name
         ]);
         $f = fopen("App/Models/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura do model ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita do model ' . $name . ', por favor tente novamente');
             return;
@@ -54,13 +54,13 @@ class MakeModel
             '$name' => $name
         ]);
         $f = fopen("App/Models/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura do model ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita do model ' . $name . ', por favor tente novamente');
             return;
@@ -112,13 +112,13 @@ class MakeModel
             '$name' => $name
         ]);
         $f = fopen("App/Models/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura do model ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita do model ' . $name . ', por favor tente novamente');
             return;
@@ -156,13 +156,13 @@ class MakeModel
             'users' => strtolower($name) . "s",
         ]);
         $f = fopen("App/Db/Seeds/$seedName.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura da seed ' . $seedName . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $seed);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita da seed ' . $seedName . ', por favor tente novamente');
             return;

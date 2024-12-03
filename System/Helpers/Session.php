@@ -24,7 +24,7 @@ class Session
     public static function sessionTokenValidade()
     {
         $token = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT'] . SECRET_KEY);
-        if (!empty($_SESSION['ownerSession']) and $_SESSION['ownerSession'] == $token) {
+        if (!empty($_SESSION['ownerSession']) and $_SESSION['ownerSession'] === $token) {
             return true;
         } else {
             return false;

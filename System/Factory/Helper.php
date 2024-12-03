@@ -3,7 +3,6 @@
 namespace Scooby\Factory;
 
 use Carbon\Carbon;
-use Cake\Collection\Collection as CakeCollections;
 use Exception;
 use Illuminate\Support\Collection as LaravelCollections;
 use Scooby\Database\IlluminateDatabase;
@@ -41,32 +40,10 @@ class Helper
      *
      * @param array $items
      * @param string $support
-     * @return void
+     * @return LaravelCollections
      */
-    public static function create($items = [], $support = COLLECTIONS_SUPPORT)
+    public static function create($items = [])
     {
-        $illuminate = [
-            'laravel',
-            'illuminate',
-            'iluminate\support',
-            'illuminate\support\collection',
-            '\iluminate\support\\',
-            '\illuminate\support\collection\\'
-        ];
-        $cake = [
-            'cake',
-            'cakephp',
-            'cake php',
-            'cake\collection',
-            'Cake\Collection\Collection',
-            'cake\collection\\',
-            'Cake\Collection\Collection\\'
-        ];
-        if (in_array(strtolower($support), $illuminate)) {
-            return new LaravelCollections($items);
-        } else if (in_array(strtolower($support), $cake)) {
-            return new CakeCollections($items);
-        }
-        throw new Exception("Collections [ " . strtoupper($support) . " ] not supported", 1);
+       return new LaravelCollections($items);
     }
 }

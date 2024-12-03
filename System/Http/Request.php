@@ -6,6 +6,7 @@ use Scooby\Guard\Csrf;
 use Scooby\Helpers\FlashMessage;
 use Scooby\Helpers\Redirect;
 use Scooby\Helpers\Validation;
+use Scooby\I18n\I18n;
 use Scooby\Log\Log;
 
 class Request
@@ -51,11 +52,11 @@ class Request
      */
     public static function getRequestNaturalData(bool $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
-                return false;
+                return [];
             }
         }
         switch (self::getMethod()) {
@@ -67,7 +68,14 @@ class Request
                 return (object) $data;
             case 'PUT':
             case 'DELETE':
-                parse_str(file_get_contents('php://input'), $data);
+                $json = json_decode(file_get_contents('php://input'));
+
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $data = $json;
+                } else {
+                    parse_str(file_get_contents('php://input'), $data);
+                }
+
                 if (!$obj) {
                     return $data;
                 }
@@ -95,11 +103,11 @@ class Request
      */
     public static function getRequestData(bool $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
-                return false;
+                return [];
             }
         }
         switch (self::getMethod()) {
@@ -112,7 +120,15 @@ class Request
                 return (object) $data;
             case 'PUT':
             case 'DELETE':
-                parse_str(file_get_contents('php://input'), $data);
+
+                $json = json_decode(file_get_contents('php://input'));
+
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $data = $json;
+                } else {
+                    parse_str(file_get_contents('php://input'), $data);
+                }
+
                 $data = self::filterRequest($data);
                 if (!$obj) {
                     return $data;
@@ -154,8 +170,8 @@ class Request
 
     public static function getRequest($param = null, $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return false;
@@ -167,6 +183,9 @@ class Request
         if (is_string($param)) {
             foreach (self::$requestData as $key => $value) {
                 if ($key === $param) {
+                    if (is_string(self::filterRequest($value))) {
+                        return self::filterRequest($value);
+                    }
                     return ($obj) ? (object) self::filterRequest($value) : (array) self::filterRequest($value);
                 }
             }
@@ -186,8 +205,8 @@ class Request
 
     public static function getRequestExcept($param, $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return false;
@@ -199,6 +218,9 @@ class Request
                 if ($key !== $param) {
                     $data[$key] = $value;
                 }
+            }
+            if (is_string(self::filterRequest($value))) {
+                return self::filterRequest($value);
             }
             return ($obj) ? (object) self::filterRequest($data) : (array) self::filterRequest($data);
         }
@@ -213,74 +235,20 @@ class Request
         }
     }
 
-    public static function getParams($param = null, $obj = true)
-    {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
-                Log::log('Request recusado, falha na autenticação de csrf');
-                Redirect::redirectTo('ooops/404');
-                return false;
-            }
-        }
-        if (empty($param)) {
-            return self::filterRequest(self::$paramsData);
-        }
-        if (is_string($param)) {
-            foreach (self::$paramsData as $key => $value) {
-                if ($key === $param) {
-                    return self::filterRequest(self::$paramsData->{$param});
-                }
-            }
-        }
-        if (is_array($param)) {
-            $data = [];
-            foreach (self::$paramsData as $key => $val) {
-                Log::debug(['k' => $key, 'p' => $param]);
-                if (!in_array($key, $param)) {
-                    $data[$key] = $val;
-                }
-            }
-            return ($obj) ? (object) self::filterRequest($data) : (array) self::filterRequest($data);
-        }
-    }
-
-    public static function getParamsExcept($param, $obj = true)
-    {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
-                Log::log('Request recusado, falha na autenticação de csrf');
-                Redirect::redirectTo('ooops/404');
-                return false;
-            }
-        }
-        if (is_string($param)) {
-            $data = [];
-            foreach (self::$paramsData as $key => $value) {
-                if ($key !== $param) {
-                    $data[$key] = $value;
-                }
-            }
-            return ($obj) ? (object) self::filterRequest($data) : (array) self::filterRequest($data);
-        }
-        if (is_array($param)) {
-            $data = [];
-            foreach (self::$paramsData as $key => $val) {
-                if (!in_array($key, $param)) {
-                    $data[$key] = $val;
-                }
-            }
-            return ($obj) ? (object) self::filterRequest($data) : (array) self::filterRequest($data);
-        }
-    }
-
     /**
      * Filtra o valor retornado pelo metodo getRequestData
      *
      * @param array $data
      * @return array
      */
-    private static function filterRequest($data): array
+    private static function filterRequest($data): array|string
     {
+        if (empty($data)) return [];
+
+        if (is_string($data)) {
+            return  htmlspecialchars(strip_tags(addslashes(trim($data))));
+        }
+
         $arr = [];
         foreach ($data as $key => $value) {
             $arr[$key] = htmlspecialchars(strip_tags(addslashes(trim($value))));
@@ -299,11 +267,11 @@ class Request
      */
     public static function getRequestOnly(array $inputs, bool $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
-                return false;
+                return [];
             }
         }
         $data = [];
@@ -329,11 +297,11 @@ class Request
      */
     public static function getRequestDataExcept(array $inputs, bool $obj = true)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
-                return false;
+                return [];
             }
         }
         $data = [];
@@ -358,8 +326,8 @@ class Request
      */
     public static function input(string $inputName)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return false;
@@ -383,8 +351,8 @@ class Request
      */
     public static function get(string $inputName)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return false;
@@ -407,8 +375,8 @@ class Request
      */
     public static function post(string $inputName)
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return false;
@@ -433,8 +401,8 @@ class Request
      */
     public static function upload(string $name, array $type = [], string $path = 'App/Public/uploaded/')
     {
-        if (getenv('CSRF_PROTECTION') == "true") {
-            if ((!Csrf::csrfTokenValidate() and IS_API == 'false')) {
+        if (filter_var(getenv('CSRF_PROTECTION'), FILTER_VALIDATE_BOOLEAN)) {
+            if ((!Csrf::csrfTokenValidate() and !IS_API)) {
                 Log::log('Request recusado, falha na autenticação de csrf');
                 Redirect::redirectTo('ooops/404');
                 return 1;
@@ -450,10 +418,10 @@ class Request
                 for ($i = 0; $i < $count; $i++) {
                     $mimeType = $_FILES[$name]['type'][$i];
                     if (!empty($type) and !in_array($_FILES[$name]['type'][$i], $type)) {
-                        if (IS_API == 'true') {
-                            Response::json(['data' => $GLOBALS['MSG_UPLOAD_FAIL']]);
+                        if (IS_API) {
+                            Response::json(['data' => I18n::translate('error', 'MSG_UPLOAD_FAIL')]);
                         }
-                        FlashMessage::modalWithGoBack('Opss', $GLOBALS['MSG_UPLOAD_FAIL'], 'error');
+                        FlashMessage::modalWithGoBack('Opss', I18n::translate('error', 'MSG_UPLOAD_FAIL'), 'error');
                         exit;
                     }
                     $arrMimeType = explode('/', $mimeType);
@@ -464,18 +432,18 @@ class Request
                 }
                 return [true, $arrPath];
             } else {
-                if (IS_API == 'true') {
-                    Response::json(['data' => $GLOBALS['MSG_UPLOAD_FAIL']]);
+                if (IS_API) {
+                    Response::json(['data' => I18n::translate('error', 'MSG_UPLOAD_FAIL')]);
                 }
             }
-            FlashMessage::modalWithGoBack('Opss', $GLOBALS['MSG_UPLOAD_FAIL'], 'error');
+            FlashMessage::modalWithGoBack('Opss', I18n::translate('error', 'MSG_UPLOAD_FAIL'), 'error');
         } else {
             $mimeType = $_FILES[$name]['type'];
             if (!empty($type) and !in_array($_FILES[$name]['type'], $type)) {
-                if (IS_API == 'true') {
-                    Response::json(['data' => $GLOBALS['MSG_UPLOAD_FAIL']]);
+                if (IS_API) {
+                    Response::json(['data' => I18n::translate('error', 'MSG_UPLOAD_FAIL')]);
                 }
-                FlashMessage::modalWithGoBack('Opss', $GLOBALS['MSG_UPLOAD_FAIL'], 'error');
+                FlashMessage::modalWithGoBack('Opss', I18n::translate('error', 'MSG_UPLOAD_FAIL'), 'error');
                 exit;
             }
             $arrMimeType = explode('/', $mimeType);
@@ -573,17 +541,17 @@ class Request
     public static function formValidate(string $input, string $inputAlias, array $rules, int $min = null, int $max = null)
     {
         $inputValue = $_REQUEST[$input];
-        if ($inputAlias == '') {
+        if ($inputAlias === '') {
             $inputAlias = $input;
         }
         if (in_array('required', $rules)) {
-            $msg = strtr($GLOBALS['REQUIRED_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'REQUIRED_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (empty($inputValue)) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -591,13 +559,13 @@ class Request
             }
         }
         if (in_array('email', $rules)) {
-            $msg = strtr($GLOBALS['EMAIL_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'EMAIL_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (!Validation::isEmail($inputValue)) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -606,13 +574,13 @@ class Request
         }
 
         if (in_array('number', $rules)) {
-            $msg = strtr($GLOBALS['NUMBER_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'NUMBER_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (!is_numeric($inputValue)) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -620,13 +588,13 @@ class Request
             }
         }
         if (in_array('negative', $rules)) {
-            $msg = strtr($GLOBALS['NEGATIVE_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'NEGATIVE_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (!is_numeric($inputValue) or $inputValue >= 0) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -634,13 +602,13 @@ class Request
             }
         }
         if (in_array('positive', $rules)) {
-            $msg = strtr($GLOBALS['POSITIVE_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'POSITIVE_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (!is_numeric($inputValue) or $inputValue < 0) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -648,13 +616,13 @@ class Request
             }
         }
         if (in_array('string', $rules)) {
-            $msg = strtr($GLOBALS['STRING_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'STRING_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (!is_string($inputValue)) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -662,13 +630,13 @@ class Request
             }
         }
         if (in_array('min', $rules)) {
-            $msg = strtr($GLOBALS['MIN_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'MIN_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (strlen($inputValue) < $min) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -676,13 +644,13 @@ class Request
             }
         }
         if (in_array('max', $rules)) {
-            $msg = strtr($GLOBALS['MAX_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'MAX_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if (strlen($inputValue) > $min) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');
@@ -690,13 +658,13 @@ class Request
             }
         }
         if (in_array('between', $rules)) {
-            $msg = strtr($GLOBALS['BETWEEN_VALIDATION'], [
-                ':atribute' => $inputAlias,
-                ':min' => $min,
-                ':max' => $max
+            $msg = I18n::translate('msg', 'BETWEEN_VALIDATION', [
+                $inputAlias,
+                $min,
+                $max
             ]);
             if ((strlen($inputValue) < $min and strlen($inputValue) > $max)) {
-                if (IS_API == 'true') {
+                if (IS_API) {
                     Response::json(['data' => $msg]);
                 }
                 FlashMessage::flashMessage('errMessage', 'Opss...', $msg, 'error');

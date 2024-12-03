@@ -12,75 +12,75 @@ class Scooby
             self::showHeaderOption();
             $component = Cli::getParam("\033[1;32m Aguardando a opção escolhida... \033[1;97m");
             $component = strtolower($component);
-            if ($component == 'make:file' or $component == 'makefile') {
+            if ($component === 'make:file' or $component === 'makefile') {
                 MakeFile::execOptionMakeFile();
-            } elseif ($component == 'make:controller' or $component == 'makecontroller') {
+            } elseif ($component === 'make:controller' or $component === 'makecontroller') {
                 MakeController::execOptionMakeController();
             } elseif (
-                $component == 'make:controller -r' or $component == 'makecontroller -r'
-                or $component == 'make:controller --resource' or $component == 'makecontroller --resource'
+                $component === 'make:controller -r' or $component === 'makecontroller -r'
+                or $component === 'make:controller --resource' or $component === 'makecontroller --resource'
             ) {
                 MakeController::execOptionMakeControllerResource();
             } elseif (
-                $component == 'make:controller -r --api' or $component == 'makecontroller -r'
-                or $component == 'make:controller --resource --api' or $component == 'makecontroller --resource'
+                $component === 'make:controller -r --api' or $component === 'makecontroller -r'
+                or $component === 'make:controller --resource --api' or $component === 'makecontroller --resource'
             ) {
                 MakeController::execOptionMakeControllerApiResource();
             } elseif (
-                $component == 'make:model' or
-                $component == 'makemodel'
+                $component === 'make:model' or
+                $component === 'makemodel'
             ) {
                 MakeModel::execOptionMakeModel();
             } elseif (
-                $component == 'makemodel -m' or
-                $component == 'make:model -m' or
-                $component == 'makemodel --migration' or
-                $component == 'make:model --migration'
+                $component === 'makemodel -m' or
+                $component === 'make:model -m' or
+                $component === 'makemodel --migration' or
+                $component === 'make:model --migration'
             ) {
                 MakeModel::execOptionMakeModelMigration();
             } elseif (
-                $component == 'make:model -m -s' or
-                $component == 'makemodel -m -s' or
-                $component == 'make:model --migration --seed' or
-                $component == 'makemodel --migration --seed'
+                $component === 'make:model -m -s' or
+                $component === 'makemodel -m -s' or
+                $component === 'make:model --migration --seed' or
+                $component === 'makemodel --migration --seed'
             ) {
                 MakeModel::execOptionMakeModelMigrationAndSeed();
-            } elseif ($component == 'make:component' or $component == 'makecomponent') {
+            } elseif ($component === 'make:component' or $component === 'makecomponent') {
                 MakeComponent::execOptionMakeComponent();
             } elseif (
-                $component == 'make:view' or
-                $component == 'makeview'
+                $component === 'make:view' or
+                $component === 'makeview'
             ) {
                 MakeView::execOptionMakeView();
             } elseif (
-                $component == 'make:view -a' or
-                $component == 'makeview -a'
+                $component === 'make:view -a' or
+                $component === 'makeview -a'
             ) {
                 MakeView::execOptionMakeViewAuth();
             } elseif (
-                $component == 'newdb' or
-                $component == 'new:db'
+                $component === 'newdb' or
+                $component === 'new:db'
             ) {
                 MakeNewDb::execOptionMakeNewDb();
             } elseif (
-                $component == 'make:react-app' or
-                $component == 'makereact-app'
+                $component === 'make:react-app' or
+                $component === 'makereact-app'
             ) {
                 MakeReactApp::execOptionMakeReactApp();
             } elseif (
-                $component == 'clear:cache' or
-                $component == 'clearcache'
+                $component === 'clear:cache' or
+                $component === 'clearcache'
             ) {
                 MakeClearCache::execOptionMakeClearCache();
             } elseif (
-                $component == 'make:migration' or
-                $component == 'makemigration'
+                $component === 'make:migration' or
+                $component === 'makemigration'
             ) {
                 MakeMigration::execOptionMakeMigration();
             } elseif (
-                $component == 'migrate' or
-                $component == 'MIGRATE' or
-                $component == 'Migrate'
+                $component === 'migrate' or
+                $component === 'MIGRATE' or
+                $component === 'Migrate'
             ) {
                 $migrate = shell_exec("php vendor/robmorgan/phinx/bin/phinx migrate");
                 if (!$migrate) {
@@ -89,9 +89,9 @@ class Scooby
                 }
                 Cli::println("Migrate executada com sucesso.");
             } elseif (
-                $component == 'rollback' or
-                $component == 'ROLLBACK' or
-                $component == 'Rollback'
+                $component === 'rollback' or
+                $component === 'ROLLBACK' or
+                $component === 'Rollback'
             ) {
                 $rollback = shell_exec("php vendor/robmorgan/phinx/bin/phinx rollback");
                 if (!$rollback) {
@@ -100,13 +100,13 @@ class Scooby
                 }
                 Cli::println("Rollback executado com sucesso.");
             } elseif (
-                $component == 'makeseed' or
-                $component == 'make:seed'
+                $component === 'makeseed' or
+                $component === 'make:seed'
             ) {
                 MakeSeed::execOptionMakeSeed();
             } elseif (
-                $component == 'runSeed' or
-                $component == 'run:seed'
+                $component === 'runSeed' or
+                $component === 'run:seed'
             ) {
                 $seedName = Cli::getParam('Por favor, DIGITE o nome da Seed a ser executada. Use o mesmo formato dado ao nome do arquivo');
                 $seedName = ucfirst($seedName);
@@ -116,13 +116,13 @@ class Scooby
 
                 Cli::println("Seed {$seedName} executada com sucesso em App/Db/Seeds/");
             } elseif (
-                $component == 'makeauth' or
-                $component == 'make:auth'
+                $component === 'makeauth' or
+                $component === 'make:auth'
             ) {
                 $api = Cli::getParam('Seu projeto é uma API ?  Digite: [ y ] Sim || [ n ] Não');
-                if ($api == 'y' or $api == 'Y') {
+                if ($api === 'y' or $api === 'Y') {
                     MakeAuth::execOptionMakeAuthApi();
-                } elseif ($api == 'n' or $api == 'N') {
+                } elseif ($api === 'n' or $api === 'N') {
                     MakeAuth::execOptionMakeAuth();
                 } else {
                     Cli::println('O valor digitado [ ' . $api . ' ] é Inválido');
@@ -130,21 +130,21 @@ class Scooby
                     exit;
                 }
             } elseif (
-                $component == 'makeauth --api' or
-                $component == 'make:auth --api' or
-                $component == 'makeauth -api' or
-                $component == 'make:auth -api'
+                $component === 'makeauth --api' or
+                $component === 'make:auth --api' or
+                $component === 'makeauth -api' or
+                $component === 'make:auth -api'
             ) {
                 MakeAuth::execOptionMakeAuthApi();
             }elseif (
-                $component == 'makemiddleware' or
-                $component == 'make:middleware'
+                $component === 'makemiddleware' or
+                $component === 'make:middleware'
             ) {
                 MakeMiddleware::execOptionMakeMiddleware();
             } elseif (
-                $component == 's' or
-                $component == 'S' or
-                $component == 'sair' or $component == 'Sair'
+                $component === 's' or
+                $component === 'S' or
+                $component === 'sair' or $component === 'Sair'
             ) {
                 Cli::println("\033[1;91m Operação cancelada pelo usuário! \033[1;97m");
                 return;
@@ -166,16 +166,16 @@ class Scooby
                 " \033[1;32m Digite a opção desejada \033[1;97m"
             );
         } while (
-            $component == 'y' or
-            $component == 'Y' or
-            $component == 'yes' or
-            $component == 'YES' or
-            $component == 'Yes'
+            $component === 'y' or
+            $component === 'Y' or
+            $component === 'yes' or
+            $component === 'YES' or
+            $component === 'Yes'
         );
         if (
-            $component == 'n' or
-            $component == 'N' or
-            $component == 'No' or $component == 'Sair'
+            $component === 'n' or
+            $component === 'N' or
+            $component === 'No' or $component === 'Sair'
         ) {
             Cli::println("\033[1;91m Operação cancelada pelo usuário! \033[1;97m");
             return;
