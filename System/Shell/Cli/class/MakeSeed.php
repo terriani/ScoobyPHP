@@ -17,13 +17,13 @@ class MakeSeed
         $seed = file_get_contents('System/Shell/templates/seeds_tpl/seedFile.tpl');
         $seed = strtr($seed, ['dateNow' => date('d-m-y - H:i:a')]);
         $f = fopen("App/Db/Seeds/$seedName.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura da seed ' . $seedName . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $seed);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita da seed ' . $seedName . ', por favor tente novamente');
             return;

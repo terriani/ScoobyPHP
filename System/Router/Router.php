@@ -7,6 +7,8 @@ use Scooby\Helpers\Auth;
 
 class Router extends Dispatch
 {
+    private array $methods = ['get', 'post', 'put', 'patch', 'delete'];
+
     /**
      * Router constructor.
      *
@@ -26,11 +28,13 @@ class Router extends Dispatch
      */
     public function match(array $methods, string $route, $handler, string $name = null): void
     {
+        $method = 'GET';
         foreach ($methods as $method) {
-            if (!in_array($method, ['get', 'post', 'put', 'delete', 'patch'])) {
+            if (!in_array($method, $this->methods)) {
                 throw new Exception('HTTP request method [ '.$method.' ] not allowed');
             }
-            $this->addRoute(strtoupper($method), $route, $handler, $name);
+            //$method = strtoupper($method);
+            $this->addRoute($method, $route, $handler, $name);
         }
     }
 
@@ -42,14 +46,21 @@ class Router extends Dispatch
      */
     public function auth(array $methods, string $route, $handler, string $name = null): void
     {
-        if (Auth::authValidation()) {
-            foreach ($methods as $method) {
-                if (!in_array($method, ['get', 'post', 'put', 'delete', 'patch'])) {
-                    throw new Exception('HTTP request method [ '.$method.' ] not allowed');
-                }
-                $this->addRoute(strtoupper($method), $route, $handler, $name);
-            }
+        if (!Auth::authValidation()) {
+            // redireciona para uma página de erro 404
         }
+
+        $method = 'GET';
+
+        foreach ($methods as $method) {
+            if (!in_array($method, $this->methods)) {
+                throw new Exception('HTTP request method [ ' . $method . ' ] not allowed');
+            }
+
+            $method = strtoupper($method);
+        }
+
+        $this->addRoute($method, $route, $handler, $name);
     }
 
     /**
@@ -60,10 +71,16 @@ class Router extends Dispatch
      */
     public function any(string $route, $handler, string $name = null): void
     {
-        $methods = ['get', 'post', 'put', 'delete', 'patch'];
-        foreach ($methods as $method) {
-            $this->addRoute(strtoupper($method), $route, $handler, $name);
+        $method = 'GET';
+        foreach ($this->methods as $method) {
+
+            if (!in_array($method, $this->methods)) {
+                throw new Exception('HTTP request method [ ' . $method . ' ] not allowed');
+            }
+
+            $method = strtoupper($method);
         }
+        $this->addRoute(strtoupper($method), $route, $handler, $name);
     }
 
     /**
@@ -74,8 +91,7 @@ class Router extends Dispatch
      */
     public function form(string $route, $handler, string $name = null): void
     {
-        $methods = ['get', 'post'];
-        foreach ($methods as $method) {
+        foreach (['get', 'post'] as $method) {
             $this->addRoute(strtoupper($method), $route, $handler, $name);
         }
     }
@@ -95,9 +111,13 @@ class Router extends Dispatch
      * @param $handler
      * @param string|null $name
      */
-    public function get(string $route, $handler, string $name = null): void
+    public function get(string $route, $handler, string $name = null, $middlewares = []): void
     {
-        $this->addRoute("GET", $route, $handler, $name);
+        if (is_string($middlewares)) {
+            $middlewares = [$middlewares];
+        }
+        
+        $this->addRoute("GET", $route, $handler, $name, $middlewares);
     }
 
     /**

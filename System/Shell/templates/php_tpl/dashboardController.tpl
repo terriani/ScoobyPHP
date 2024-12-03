@@ -9,7 +9,7 @@ use Scooby\Helpers\FlashMessage;
 use Scooby\Helpers\Login;
 use Scooby\Helpers\Session;
 use Scooby\Http\Request;
-
+use Scooby\I18n\I18n;
 
 class DashboardController extends Controller
 {
@@ -54,9 +54,9 @@ class DashboardController extends Controller
         $id = Session::getSession('id');
         $user = new User;
         $u = $user->find($id);
-        if ($u == null) {
+        if ($u === null) {
             $this->view('pages', 'Dashboard', [
-                'msg' => FlashMessage::toast('Error:', $GLOBALS['SOMETHING_WRONG'], 'error')
+                'msg' => FlashMessage::toast('Error:', I18n::translate('msg', 'SOMETHING_WRONG'), 'error')
             ]);
             exit;
         }
@@ -83,32 +83,33 @@ class DashboardController extends Controller
             $u->name = $name;
             $u->email = $email;
             $u->save();
-            FlashMessage::flashMessage('error', 'Ok...', $GLOBALS['UPDATE_DATA_SUCCESS'], 'success', 'dashboard');
+            FlashMessage::flashMessage('error', 'Ok...', I18n::translate('msg','UPDATE_DATA_SUCCESS'), 'success', 'dashboard');
             exit;
-        }if (empty($name)) {
+        }
+        if (empty($name)) {
             $u->password = Login::passwordHash($password);
             $u->email = $email;
             $u->save();
-            FlashMessage::flashMessage('error', 'Ok...', $GLOBALS['UPDATE_DATA_SUCCESS'], 'success', 'dashboard');
+            FlashMessage::flashMessage('error', 'Ok...', I18n::translate('msg','UPDATE_DATA_SUCCESS'), 'success', 'dashboard');
             exit;
         }elseif (empty($email)) {
             $u->name = $name;
             $u->password = Login::passwordHash($password);
             $u->save();
-            FlashMessage::flashMessage('error', 'Ok...', $GLOBALS['UPDATE_DATA_SUCCESS'], 'success', 'dashboard');
+            FlashMessage::flashMessage('error', 'Ok...', I18n::translate('msg','UPDATE_DATA_SUCCESS'), 'success', 'dashboard');
             exit;
         }elseif (empty($password)) {
             $u->name = $name;
             $u->email = $email;
             $u->save();
-            FlashMessage::flashMessage('error', 'Ok...', $GLOBALS['UPDATE_DATA_SUCCESS'], 'success', 'dashboard');
+            FlashMessage::flashMessage('error', 'Ok...', I18n::translate('msg','UPDATE_DATA_SUCCESS'), 'success', 'dashboard');
             exit;
         }
         $u->name = $name;
         $u->email = $email;
         $u->password = Login::passwordHash($password);
         $u->save();
-        FlashMessage::flashMessage('error', 'Ok...', $GLOBALS['UPDATE_DATA_SUCCESS'], 'success', 'dashboard');
+        FlashMessage::flashMessage('error', 'Ok...', I18n::translate('msg','UPDATE_DATA_SUCCESS'), 'success', 'dashboard');
         exit;
     }
 }

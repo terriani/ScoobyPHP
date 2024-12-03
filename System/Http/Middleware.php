@@ -2,8 +2,6 @@
 
 namespace Scooby\Http;
 
-use Exception;
-
 class Middleware
 {
     private $middlewareQueue = [];
@@ -12,15 +10,12 @@ class Middleware
     {
         $this->middlewareQueue = \Scooby\Http\Middlewares::$middleware;
     }
-    public function next()
+    public function next($data = null)
     {
-        $data = Request::getRequestDataExcept(['route'], false);
+        $data = $data ?? Request::getRequestDataExcept(['route'], false);
         if (!empty($this->middlewareQueue)) {
             foreach ($this->middlewareQueue as $middleware) {
                 $request = (new $middleware)->handle($data ?? []);
-                if (!$request) {
-                    throw new Exception('Something broke!', 500);
-                }
                 $data = $request;
             }
         }
@@ -28,13 +23,10 @@ class Middleware
         return $data;
     }
 
-    public function especificActionNext($middleware)
+    public function especificActionNext($middleware, $data = null)
     {
-        $data = Request::getRequestDataExcept(['route'], false);
+        $data = $data ?? Request::getRequestDataExcept(['route'], false);
         $request = (new $middleware)->handle($data ?? []);
-        if (!$request) {
-            throw new Exception('Something broke!', 500);
-        }
         Request::setRequest($request);
         return $request;
     }

@@ -1,9 +1,10 @@
 <?php
-
 date_default_timezone_set('America/Sao_Paulo');
 
+define('ROOT_PATH', (getenv('PROD_ROOT_PATH') !== '/') ? getenv('ROOT_PATH') : '');
+
 // Configurações do banco de dados e smtp do projeto rodando em produção
-if (getenv('ENV') == 'production') {
+if (getenv('ENV') === 'production') {
 
     error_reporting(0);
 
@@ -62,9 +63,11 @@ if (getenv('ENV') == 'production') {
     define('SMTP_CETTIFICATE', getenv('PROD_SMTP_CETTIFICATE'));
 
     // Configurações do banco de dados e smtp do projeto rodando em desenvolvimento
-} else if (getenv('ENV') == 'development') {
+} else if (getenv('ENV') === 'development') {
 
     error_reporting(E_ALL);
+
+    define('ROOT_PATH', (getenv('PROD_ROOT_PATH') !== '/') ? getenv('ROOT_PATH') : '');
 
     //define a url base do sistema
     define("BASE_URL", getenv('ROOT_PATH'));
@@ -129,7 +132,7 @@ define('SSL_VERIFY', getenv('SSL_VERIFY'));
 define('ENV', getenv('ENV'));
 
 // Definir se a aplicação será uma API ou um projeto WEB monolítico
-define('IS_API', getenv('IS_API'));
+define('IS_API', filter_var(getenv('IS_API'), FILTER_VALIDATE_BOOLEAN));
 
 // Hash para encriptação do jwt unico, gerado ao criar o projeto
 define('SECRET_KEY', getenv('SECRET_KEY'));
@@ -138,7 +141,7 @@ define('ORIGIN_ALLOW', getenv('ORIGIN_ALLOW'));
 
 define('METHODS_ALLOW', getenv('METHODS_ALLOW'));
 
-define('CREDENTIALS_ALLOW', getenv('CREDENTIALS_ALLOW'));
+define('CREDENTIALS_ALLOW', filter_var(getenv('CREDENTIALS_ALLOW'), FILTER_VALIDATE_BOOLEAN));
 
 //define o nome do site em desenvolvimento
 define('APP_NAME', getenv('APP_NAME'));

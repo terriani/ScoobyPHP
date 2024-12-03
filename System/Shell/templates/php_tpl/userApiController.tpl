@@ -122,7 +122,7 @@ class UserApiController extends Controller
         $id = Jwt::jwtPayloadDecode(Jwt::jwtGetToken())->id;
         $user = new User;
         $u = $user->find($id);
-        if ($u == null) {
+        if ($u === null) {
             $this->json(['data' => $GLOBALS['SOMETHING_WRONG']]);
         }
         $this->json([
@@ -278,7 +278,7 @@ class UserApiController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             foreach ($data[$i] as $key => $value) {
                 $data[$i]['isLogged'] = false;
-                if ($key == 'created_at') {
+                if ($key === 'created_at') {
                     $date = explode(' ', $value);
                     $data[$i][$key] = date('d/m/Y', strtotime($date[0])) . ' - ' . $date[1];
                 }

@@ -2,6 +2,8 @@
 
 namespace Scooby\Http;
 
+use Scooby\I18n\I18n;
+
 class HttpErrorResponse
 {
     /**
@@ -11,12 +13,7 @@ class HttpErrorResponse
      */
     public static function httpGetErrorCode(): int
     {
-        if (in_array($_SESSION['httpCode'], array_keys($GLOBALS))) {
-            $code = $_SESSION['httpCode'];
-        } else {
-            $code = 0;
-        }
-        return $code;
+        return $_SESSION['httpCode'] ?? 0;
     }
 
     /**
@@ -27,11 +24,6 @@ class HttpErrorResponse
      */
     public static function httpGetErrorMsg(): string
     {
-        if (in_array($_SESSION['httpCode'], array_keys($GLOBALS))) {
-            $code = $GLOBALS[$_SESSION['httpCode']];
-        } else {
-            $code = $GLOBALS['UNKNOWN_ERROR'];
-        }
-        return $code;
+        return I18n::translate('status_code', $_SESSION['httpCode']) ?? I18n::translate('error', 'UNKNOWN_ERROR');
     }
 }

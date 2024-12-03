@@ -38,4 +38,10 @@ class Response
         echo $template->render($data);
         require_once 'System/Html/Templates/Footer.php';
     }
+
+    public static function redirect($url)
+    {
+        header("Location: {$url}");
+        exit;
+    }
 }

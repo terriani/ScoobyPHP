@@ -10,6 +10,7 @@ use Scooby\Helpers\Login;
 use Scooby\Helpers\Redirect;
 use Scooby\Http\Request;
 use Scooby\Helpers\Validation;
+use Scooby\I18n\I18n;
 use Scooby\Models\PasswordUserToken;
 use Scooby\Models\User;
 
@@ -53,7 +54,7 @@ class UserController extends Controller
             exit;
         } else {
             $this->view("pages", "login", [
-                "msg" => FlashMessage::toast("Opss", $GLOBALS['LOGIN_AUTHENTICATION_FAILED'], "error")
+                "msg" => FlashMessage::toast("Opss", I18n::translate('msg', 'LOGIN_AUTHENTICATION_FAILED'), "error")
             ]);
         }
     }
@@ -90,12 +91,12 @@ class UserController extends Controller
                 $user->password = $pass;
                 if ($user->save()) {
                     $this->view("pages", "Login", [
-                        "msg" => FlashMessage::toast("Ok...", $GLOBALS['REGISTERED_USER'], "success")
+                        "msg" => FlashMessage::toast("Ok...", I18n::translate('msg', 'REGISTERED_USER'), "success")
                     ]);
                 }
             } elseif (Validation::emailMatch($email, "users", "email") === false and !empty($email)) {
                 $this->view("pages", 'Register', [
-                    "msg" => FlashMessage::toast("Opss...", $GLOBALS['EMAIL_USED'], "warning")
+                    "msg" => FlashMessage::toast("Opss...", I18n::translate('msg', 'EMAIL_USED'), "warning")
                 ]);
             }
         }
@@ -121,7 +122,7 @@ class UserController extends Controller
     {
         if (empty(Request::input("email"))) {
             $this->view('pages', 'PasswordRescue', [
-                'msg' => FlashMessage::toast('Opss...', $GLOBALS['EMAIL_REQUIRED'], 'warning')
+                'msg' => FlashMessage::toast('Opss...', I18n::translate('msg', 'EMAIL_REQUIRED'), 'warning')
             ]);
             exit;
         }
@@ -145,7 +146,7 @@ HTML;
             $send = Email::sendEmailWithSmtp('ScoobyPHP', $msg, ['viniterriani.vt@gmail.com' => 'ScoobyTem'], [$email => $u->name]);
             if ($send) {
                 $this->view('Pages', 'login', [
-                    'msg' => FlashMessage::toast('Ok', $GLOBALS['EMAIL_SUCCESSFULLY_SEND'], 'success')
+                    'msg' => FlashMessage::toast('Ok', I18n::translate('msg', 'EMAIL_SUCCESSFULLY_SEND'), 'success')
 
                 ]);
             } else {
@@ -153,7 +154,7 @@ HTML;
             }
         } else {
             $this->view('pages', 'PasswordRescue', [
-                'msg' => FlashMessage::toast('Opss...', $GLOBALS['EMAIL_NOT_FOUND'], 'error')
+                'msg' => FlashMessage::toast('Opss...', I18n::translate('msg', 'EMAIL_NOT_FOUND'), 'error')
             ]);
         }
     }
@@ -171,15 +172,15 @@ HTML;
         $p = $newPass->where('token', $token)->first();
         if (empty($_GET['token'])) {
             $this->view('pages', 'PasswordRescue', [
-                'msg' => FlashMessage::toast('Erro...', $GLOBALS['TOKEN_INVALID'], 'error')
+                'msg' => FlashMessage::toast('Erro...', I18n::translate('msg','TOKEN_INVALID'), 'error')
             ]);
             exit;
         }
-        if ($p != null and $p->used == 0) {
+        if ($p != null and $p->used === 0) {
             $this->view('pages', 'NewPassword', ['token' => $token]);
         } else {
             $this->view('pages', 'PasswordRescue', [
-                'msg' => FlashMessage::toast('Erro...', $GLOBALS['LINK_INVALID'], 'error')
+                'msg' => FlashMessage::toast('Erro...', I18n::translate('msg','LINK_INVALID'), 'error')
             ]);
             exit;
         }
@@ -195,12 +196,12 @@ HTML;
         $token = $_POST['passwordToken'];
         if (empty($_POST['new-password']) and empty($_POST['confirm-password'])) {
             $this->view('pages', 'NewPassword', [
-                'msg' => FlashMessage::toast('Opss...', $GLOBALS['INPUTS_REQUIRED'], 'warning')
+                'msg' => FlashMessage::toast('Opss...', I18n::translate('msg','INPUTS_REQUIRED'), 'warning')
             ]);
             exit;
         } elseif ($_POST['new-password'] != $_POST['confirm-password']) {
             $this->view('pages', 'NewPassword', [
-                'msg' => FlashMessage::toast('Opss...', $GLOBALS['PASSWORDS_DO_NOT_MATCH'], 'warning')
+                'msg' => FlashMessage::toast('Opss...', I18n::translate('msg','PASSWORDS_DO_NOT_MATCH'), 'warning')
             ]);
             exit;
         }
@@ -213,7 +214,7 @@ HTML;
         $u = $user->where('id', $id)->update(['password' => Login::passwordHash($_POST['new-password'])]);
         if ($u and $p) {
             $this->view('pages', 'login', [
-                'msg' => FlashMessage::toast('Ok...', $GLOBALS['PASSWORD_UPDATE'], 'success')
+                'msg' => FlashMessage::toast('Ok...', I18n::translate('msg','PASSWORD_UPDATE'), 'success')
             ]);
         }
     }

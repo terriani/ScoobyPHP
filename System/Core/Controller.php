@@ -5,13 +5,17 @@ namespace Scooby\Core;
 use Scooby\Helpers\Auth;
 use Scooby\Log\Log;
 use Scooby\Helpers\Redirect;
+use Scooby\Http\Request;
 use Scooby\Http\Response;
+use Scooby\I18n\I18n;
 use \Twig\Loader\FilesystemLoader;
 use \Twig\Environment;
 
 abstract class Controller
 {
     protected $ViewData = [];
+
+    protected $i18n = I18n::class;
 
     /**
      * Analisa e carrega os templates logado e deslogado
@@ -21,13 +25,13 @@ abstract class Controller
      * @param array $ViewData
      * @return void
      */
-    public function view(string $viewPath, string $ViewName, array $ViewData = [])
+    public function view(string $viewPath, string $ViewName, array $ViewData = [], $viewTitle = null, $httpStatusCode = 200)
     {
         $viewAutentication = [];
         include "System/SysConfig/viewsAuthentication.php";
         $loader = new FilesystemLoader('App/Views');
         $debug = false;
-        if (getenv('ENV') == 'development') {
+        if (getenv('ENV') === 'development') {
             $debug = true;
         }
         $twig = new Environment($loader, [
@@ -45,15 +49,18 @@ abstract class Controller
         $twig->addGlobal('method_patch', '<input type="hidden" name="_method" value="PATCH">');
         require_once 'App/Config/twigGlobalVariables.php';
         $ViewName = ucwords($ViewName);
+        if (!empty($viewTitle)) {
+            $this->setTitle($viewTitle);
+        }
         if (in_array($ViewName, $viewAutentication) === true or in_array(strtolower($ViewName), $viewAutentication) === true) {
             if (Auth::authValidOrFail()) {
-                Response::html($ViewData, $ViewName, $viewPath, $twig);
+                Response::html($ViewData, $ViewName, $viewPath, $twig, $httpStatusCode);
             } else {
                 Log::log('Tentativa de acesso a uma View protegida por autenticação');
                 Redirect::redirectTo('ooops/404');
             }
         } else {
-            Response::html($ViewData, $ViewName, $viewPath, $twig);
+            Response::html($ViewData, $ViewName, $viewPath, $twig, $httpStatusCode);
         }
         die;
     }
@@ -80,6 +87,11 @@ abstract class Controller
     public function json($data, $code = 200)
     {
         return Response::json($data, $code);
+    }
+
+    public function Request()
+    {
+        return new Request();
     }
 
     /**

@@ -94,13 +94,13 @@ class MakeAuth
             return;
         }
         $f = fopen("App/Controllers/UserController.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log('Um erro desconhecido ocorreu ao criar o UserController');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $userController);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao criar o UserController');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -109,13 +109,13 @@ class MakeAuth
         Log::log('UserController criado em App/Controllers com sucesso.');
         Cli::println("UserController criado em 'App/Controllers' com sucesso.");
         $f = fopen("App/Controllers/DashboardController.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log('Um erro desconhecido ocorreu, por favor tente novamente');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $dashboardController);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao criar o DashboardController');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -124,13 +124,13 @@ class MakeAuth
         Log::log("DashboardController criado em 'App/Controllers' com sucesso.");
         Cli::println("DashboardController criado em 'App/Controllers' com sucesso.");
         $f = fopen("App/Models/User.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log('Um erro desconhecido ocorreu ao crir user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $userModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao criar user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -138,13 +138,13 @@ class MakeAuth
         Log::log("User model criado em 'App/Models' com sucesso.");
         fclose($f);
         $f = fopen("App/Models/PasswordUserToken.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar PasswordUserToken");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $passwordTokenModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar PasswordUserToken");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -153,13 +153,13 @@ class MakeAuth
         fclose($f);
         Cli::println("PasswordUserToken criado em 'App/Models' com sucesso.");
         $f = fopen("App/Views/Pages/Login.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view Login");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $loginView);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view Login");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -168,13 +168,13 @@ class MakeAuth
         Log::log("Login criado em 'App/Views/Pages' com sucesso.");
         Cli::println("Login criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Views/Pages/Register.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view register");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $registerView);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view register");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -183,13 +183,13 @@ class MakeAuth
         Cli::println("Register criado em 'App/Views/Pages' com sucesso.");
         Log::log("Register criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Views/Pages/PasswordRescue.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view passwordRescue");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $passwordRescue);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view passwordRescue");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -198,13 +198,13 @@ class MakeAuth
         Cli::println("PasswordRescue criado em 'App/Views/Pages' com sucesso.");
         Log::log("PasswordRescue criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Views/Pages/NewPassword.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a newPassword");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $newPassword);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a newPassword");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -213,13 +213,13 @@ class MakeAuth
         Cli::println("NewPassword criado em 'App/Views/Pages' com sucesso.");
         Log::log("NewPassword criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Views/Pages/DashBoard.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view dashboard");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $dashBoardView);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view dashboard");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -228,13 +228,13 @@ class MakeAuth
         Cli::println("DashBoard criado em 'App/Views/Pages' com sucesso.");
         Log::log("DashBoard criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Views/Pages/UpdateUser.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view updateUser");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $updateUser);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a view updateUser");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -243,13 +243,13 @@ class MakeAuth
         Cli::println("UpdateUser criado em 'App/Views/Pages' com sucesso.");
         Log::log("UpdateUser criado em 'App/Views/Pages' com sucesso.");
         $f = fopen("App/Routes/web.php", 'a+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o arquivo de rotas WEB");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $routesAuth);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o arquivo de rotas WEB");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -258,13 +258,13 @@ class MakeAuth
         Cli::println("Rotas de Autenticação criadas em 'App/Routes/web.php' com sucesso.");
         Log::log("Rotas de Autenticação criadas em 'App/Routes/web.php' com sucesso.");
         $f = fopen("App/Views/Pages/Home.twig", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao alterar a view home");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $navbar);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao alterar a view home");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -273,7 +273,7 @@ class MakeAuth
         Cli::println("Navbar criado em 'App/Views/Pages/Home.twig' com sucesso.");
         Log::log("Navbar criado em 'App/Views/Pages/Home.twig' com sucesso.");
         $f = fopen(".env", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao atrerar o arquivo .env");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -282,7 +282,7 @@ class MakeAuth
             'VIEWS_AUTH=' => 'VIEWS_AUTH=Dashboard,UpdateUser,'
         ]);
         $fw = fwrite($f, $authConfig);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao alterar o arquivo .env");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -304,13 +304,13 @@ class MakeAuth
         $seed = file_get_contents('System/Shell/templates/seeds_tpl/SeedUserAuth.tpl');
         $seed = strtr($seed, ['dateNow' => date('d-m-y - H:i:a')]);
         $f = fopen("App/Db/Seeds/SeedUserAuth.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a seed seedUserAuth");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $seed);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a seed seedUserAuth");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -358,13 +358,13 @@ class MakeAuth
         }
 
         $f = fopen("App/Controllers/UserApiController.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o UserApiController");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $userController);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o UserApiController");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -373,13 +373,13 @@ class MakeAuth
         Cli::println("UserApiController criado em 'App/Controllers' com sucesso.");
         Log::log("UserApiController criado em 'App/Controllers' com sucesso.");
         $f = fopen("App/Models/User.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o user model");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $userModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o user model");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -387,26 +387,26 @@ class MakeAuth
         fclose($f);
         Cli::println("User model criado em 'App/Models' com sucesso.");
         $f = fopen("App/Models/Authorization.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log('Um erro desconhecido ocorreu ao crir user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $authModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao criar user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         Log::log("Authorization model criado em 'App/Models' com sucesso.");
         $f = fopen("App/Models/LoggedTokens.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log('Um erro desconhecido ocorreu ao crir user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $loggedModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log('Um erro desconhecido ocorreu ao criar user model');
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -414,13 +414,13 @@ class MakeAuth
         Log::log("LoggedTokens model criado em 'App/Models' com sucesso.");
         Log::log("User model criado em 'App/Models' com sucesso.");
         $f = fopen("App/Models/PasswordUserToken.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar PasswordUserToken");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $passwordTokenModel);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar PasswordUserToken");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -429,13 +429,13 @@ class MakeAuth
         Cli::println("PasswordUserToken criado em 'App/Models' com sucesso.");
         Log::log("PasswordUserToken criado em 'App/Models' com sucesso.");
         $f = fopen("App/Routes/api.php", 'a+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o arquivo de rotas API");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $routesAuth);
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar o arquivo de rotas API");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
@@ -469,13 +469,13 @@ class MakeAuth
         $seed = file_get_contents('System/Shell/templates/seeds_tpl/SeedUserAuth.tpl');
         $seed = strtr($seed, ['dateNow' => date('d-m-y - H:i:a')]);
         $f = fopen("App/Db/Seeds/SeedUserAuth.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a seedUserAuth");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $seed);
-        if ($fw == false) {
+        if ($fw === false) {
             Log::log("Um erro desconhecido ocorreu ao criar a seedUserAuth");
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             return;

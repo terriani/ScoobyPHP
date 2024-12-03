@@ -8,7 +8,7 @@ class MakeClearCache
     public static function execOptionMakeClearCache()
      {
          $cacheDir = scandir('System/SysConfig/Cache/');
-         if ($cacheDir == false) {
+        if ($cacheDir === false) {
              Cli::println('Um erro desconhecido ocorreu ao limpar o cache da aplicação');
              Log::log('Um erro desconhecido ocorreu ao limpar o cache da aplicação');
              return;

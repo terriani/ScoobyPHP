@@ -13,7 +13,7 @@ return [
     ],
     'environments' => [
         'default_migration_table' => 'migrations_log',
-        'default_database' => 'development',
+        'default_environment' => 'development',
         'development' => [
             'adapter' => getenv('DB_DRIVER'),
             'host' => getenv('DB_HOST'),

@@ -22,13 +22,13 @@ class MakeController
             '$name' => $name
         ]);
         $f = fopen("App/Controllers/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo base do controller');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo base do controller');
             return;
@@ -62,13 +62,13 @@ class MakeController
             '$routeName' => $routeName
         ]);
         $f = fopen("App/Controllers/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo base do controller');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo base do controller');
             return;
@@ -77,13 +77,13 @@ class MakeController
         Cli::println("{$name} criado em 'App/Controllers' com sucesso.");
         Log::log("{$name} criado em 'App/Controllers' com sucesso.");
         $f = fopen("App/Routes/web.php", 'a+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo de rotas do controller resource');
             return;
         }
         $fw = fwrite($f, $routeResource);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo de rotas do controller resource');
             return;
@@ -117,13 +117,13 @@ class MakeController
             '$routeName' => $routeName
         ]);
         $f = fopen("App/Controllers/$name.php", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo base do controller');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo base do controller');
             return;
@@ -131,13 +131,13 @@ class MakeController
         fclose($f);
         Cli::println("{$name} criado em 'App/Controllers' com sucesso.");
         $f = fopen("App/Routes/api.php", 'a+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao ler o arquivo de rotas');
             return;
         }
         $fw = fwrite($f, $routeResource);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu ao clonar o arquivo de rotas');
             return;

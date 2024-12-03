@@ -19,26 +19,26 @@ class MakeFile
             return;
         }
         $content = null;
-        if ($ext == 'php') {
+        if ($ext === 'php') {
             $content = file_get_contents('System/Shell/templates/php_tpl/phpFile.tpl');
-        } elseif ($ext == 'html') {
+        } elseif ($ext === 'html') {
             $content = file_get_contents('System/Shell/templates/html_tpl/htmlFile.tpl');
-        } elseif ($ext == 'css') {
+        } elseif ($ext === 'css') {
             $content = file_get_contents('System/Shell/templates/css_tpl/cssFile.tpl');
-        } elseif ($ext == 'txt') {
+        } elseif ($ext === 'txt') {
             $content = file_get_contents('System/Shell/templates/txt_tpl/txtFile.tpl');
-        } elseif ($ext == 'js') {
+        } elseif ($ext === 'js') {
             $content = file_get_contents('System/Shell/templates/js_tpl/jsFile.tpl');
         }
         $content = strtr((string) $content, ['dateNow' => date('d-m-y - H:i:a')]);
         $f = fopen("$path/$name.$ext", 'w+');
-        if ($f == false) {
+        if ($f === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na leitura do arquivo ' . $name . ', por favor tente novamente');
             return;
         }
         $fw = fwrite($f, $content);
-        if ($fw == false) {
+        if ($fw === false) {
             Cli::println('Um erro desconhecido ocorreu, por favor tente novamente');
             Log::log('Um erro desconhecido ocorreu na escrita do arquivo ' . $name . ', por favor tente novamente');
             return;
